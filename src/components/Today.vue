@@ -1,21 +1,33 @@
 <template>
   <div class="container-fluid">
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default nav-justified">
+      <p class="navbar-brand">今日待办事项</p>
+      <button class="btn btn-default navbar-btn"
+        @click="savePlan">
+        {{editText}}
+      </button>
     </nav>
-    <draggable :list='todayItems' @update="dragEnd">
+
+    <div class="list-group-item daily-cut" v-for="item in todayItems" :key="item.content" v-show="!showDrag">
+      {{item.content}}
+    </div>
+
+    <draggable :list='todayItems' v-if="showDrag">
       <transition-group>
         <div class="list-group-item daily-cut" v-for="item in todayItems" :key="item.content">
+          <span class="glyphicon glyphicon-resize-vertical"></span>
           {{item.content}}
         </div>
       </transition-group>
     </draggable>
 
     <br>
-    <div class="well text-center"><button class="btn btn-default" @click="seeDone">
-          显示已完成
-    </button></div>
+    <nav class="navbar navbar-default">
+        <button class="btn btn-default navbar-btn center-block" @click="seeDone">显示已完成</button>
+    </nav>
+
     <div v-show="showDone">
-      <div class="list-group-item daily-cut" v-for="item in doneItems" :key="item.content">
+      <div class="list-group-item daily-cut" v-for="(item,index) in todayDone" :key="index">
         {{item.content}}
       </div>
     </div>
@@ -28,32 +40,37 @@ export default {
   name: 'Today',
   data () {
     return {
-      showDone:false
+      showDrag:false,
+      showDone:false,
     }
   },
   computed:{
     todayItems(){
-      return this.$store.state.todayItems.items
+      return this.$store.getters.todayTodo
     },
-    doneItems(){
-      return this.$store.state.doneItems
+    todayDone(){
+      return this.$store.getters.todayDone
+    },
+    editText(){
+      return this.showDrag?"退出编辑":"编辑"
     },
   },
   methods: {
     seeDone(){
       this.showDone=!this.showDone;
     },
-    dragEnd(evt){
-      console.log('拖动前的索引：'+evt.oldIndex);
-      console.log('拖动后的索引：'+evt.newIndex);
-      console.dir(this.todayItems);
-      console.dir(this.$store.state.todayItems.items);
-    },
+    savePlan(){
+      this.showDrag=!this.showDrag;
+      this.$store.dispatch('saveStore');
+    }
+  },
+  mounted(){
+    this.$store.commit("loadStore")
+    console.log("In Today mounted: " + JSON.stringify(this.todayItems))
   },
   components:{ draggable }
 }
 </script>
 
 <style scoped>
-
 </style>

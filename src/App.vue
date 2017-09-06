@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-default justified navbar-fixed-top">
+    <nav class="navbar navbar-default justified navbar-fixed-bottom">
       <ul class="nav nav-tabs nav-justified" @click="goto">
         <li :class="{active: (activeLi==0)}"><a id="今日待办">
             今日待办<span class="glyphicon glyphicon-calendar" aria-hidden="true">
@@ -46,7 +46,7 @@ export default {
         break;
       case "添加":
         this.activeLi=2;
-        this.$router.push('/thirdapi');
+        this.$router.push('/addtodo');
         break;
       case "定期循环":
         this.activeLi=3;

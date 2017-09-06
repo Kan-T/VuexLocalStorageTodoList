@@ -1,7 +1,7 @@
 // 7. import components we can route to
 import Today from './components/Today'
 import TodoList from './components/TodoList'
-import ThirdAPI from './components/ThirdAPI'
+import AddTodo from './components/AddTodo'
 
 const routes = [
         {
@@ -13,8 +13,8 @@ const routes = [
             component: TodoList
         },
         {
-            path: '/thirdapi',
-            component: ThirdAPI
+            path: '/addtodo',
+            component: AddTodo
         }
         ];
 export default routes;

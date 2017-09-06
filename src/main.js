@@ -8,19 +8,16 @@ import App from './App'
 import Router from 'vue-router'
 import routes from './routes'
 
-import Vuex from 'vuex'
-import storeData from './storeData'
+import store from './store'
 
 // 3. use vue-router
-Vue.use(Router).use(Vuex)
+Vue.use(Router)
 
 // 4. 实例化router构造函数
 const router = new Router({
     // 6. Define router detail
     routes
 })
-
-const store =  new Vuex.Store(storeData)
 
 Vue.config.productionTip = false
 
