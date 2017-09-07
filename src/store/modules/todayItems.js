@@ -1,18 +1,9 @@
-const state = {
-  items: [
-    {
-      content:"学习",
-      fixed:false,
-    },
-    {
-      content:"游泳",
-      fixed:false,
-    },
-    {
-      content:"跑步",
-      fixed:false,
-    }
-  ]
+import Local from './Local'
+const localToday = new Local(localToday)
+
+const state = localToday.get() || {
+    date:'',
+    items: []
 }
 
 // getters
@@ -30,12 +21,15 @@ const actions = {
 const mutations = {
   addToday(state, item){
     state.items.push(item)
+    localToday.set(state)
   },
   saveToday(state, items){
     state.items = items
+    localToday.set(state)
   },
   deleteToday(state,index){
     state.items.splice(index, 1)
+    localToday.set(state)
   }
 }
 
