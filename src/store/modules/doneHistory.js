@@ -1,5 +1,8 @@
-const state = {
-  items: []
+import Local from './Local'
+const localDone = new Local("doneHistory")
+
+const state = localDone.get() || {
+    items: []
 }
 
 // getters
@@ -14,7 +17,14 @@ const actions = {
 
 // mutations
 const mutations = {
-  delete: state => state.items.splice(index, 1)
+  deleteDone(state){
+    state.items.splice(index, 1)
+    localToday.set(state)
+  },
+  clearDone(state){
+    state.items = []
+    localToday.clear()
+  }
 }
 
 export default {

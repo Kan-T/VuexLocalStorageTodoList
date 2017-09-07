@@ -3,19 +3,19 @@
     <nav class="navbar navbar-default justified navbar-fixed-bottom">
       <ul class="nav nav-tabs nav-justified" @click="goto">
         <li :class="{active: (activeLi==0)}"><a id="今日待办">
-            今日待办<span class="glyphicon glyphicon-calendar" aria-hidden="true">
-        </span></a></li>
+            <i class="fa fa-list fa-1x"></i>今日待办
+        </a></li>
         <li :class="{active: (activeLi==1)}"><a id="待办清单">
             待办清单<span class="glyphicon glyphicon-list-alt" aria-hidden="true">
         </span></a></li>
         <li :class="{active: (activeLi==2)}"><a id="添加">
             添加<span class="glyphicon glyphicon-plus-sign" aria-hidden="true">
         </span></a></li>
-        <li :class="{active: (activeLi==3)}"><a id="定期循环">
-            定期循环<span class="glyphicon glyphicon-repeat" aria-hidden="true">
+        <li :class="{active: (activeLi==3)}"><a id="长期习惯">
+            长期习惯<span class="glyphicon glyphicon-screenshot" aria-hidden="true">
         </span></a></li>
-        <li :class="{active: (activeLi==4)}"><a id="持续清单">
-            持续清单<span class="glyphicon glyphicon-screenshot" aria-hidden="true">
+        <li :class="{active: (activeLi==4)}"><a id="已完成">
+            已完成<span class="glyphicon glyphicon-repeat" aria-hidden="true">
         </span></a></li>
       </ul>
     </nav>
@@ -24,12 +24,14 @@
 </template>
 
 <script>
+import {  } from 'vue-strap'
 
 export default {
   name: 'app',
   data(){
     return{
-      activeLi:0
+      activeLi:0,
+      showLeft:false
     }
   },
   methods: {
@@ -48,18 +50,18 @@ export default {
         this.activeLi=2;
         this.$router.push('/addtodo');
         break;
-      case "定期循环":
+      case "长期习惯":
         this.activeLi=3;
         this.$router.push('/thirdapi');
         break;
-      case "持续清单":
+      case "已完成":
         this.activeLi=4;
-        this.$router.push('/thirdapi');
+        this.$router.push('/done');
         break;
       }
     }
   },
-  components:{}
+  components:{  }
 }
 
 </script>
@@ -77,5 +79,9 @@ export default {
   overflow:hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
+}
+.daily-middle {
+  display:table-cell;
+  vertical-align:middle;
 }
 </style>

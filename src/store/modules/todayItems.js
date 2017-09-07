@@ -1,5 +1,5 @@
 import Local from './Local'
-const localToday = new Local(localToday)
+const localToday = new Local("todayItems" )
 
 const state = localToday.get() || {
     date:'',
@@ -30,6 +30,10 @@ const mutations = {
   deleteToday(state,index){
     state.items.splice(index, 1)
     localToday.set(state)
+  },
+  clearToday(state){
+    state.items = []
+    localToday.clear()
   }
 }
 

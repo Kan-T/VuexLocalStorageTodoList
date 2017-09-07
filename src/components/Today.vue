@@ -1,21 +1,38 @@
 <template>
   <div class="container-fluid">
     <nav class="navbar navbar-default nav-justified">
-      <p class="navbar-brand">今日待办事项</p>
-      <button class="btn btn-default navbar-btn"
-        @click="editable=!editable">
-        {{editText}}
-      </button>
+      <div class="container-fluid">
+        <div class=row>
+          <p class="navbar-brand col-xs-6">今日待办事项</p>
+          <div class="col-xs-4"></div>
+
+          <button class="btn btn-default navbar-btn col-xs-1"
+            @click="clear"><i class="fa fa-trash-o"></i> 清空
+          </button>
+          <button class="btn btn-default navbar-btn col-xs-1"
+            @click="editable=!editable">
+            {{editText}}
+          </button>
+
+        </div>
+      </div>
     </nav>
 
-    <draggable v-model='todayItems' :options="dragOptions" :move="onMove">
-      <transition-group  type="transition" :name="'flip-list'">
-        <div class="list-group-item daily-cut" v-for="item in todayItems" :key="item.content">
-          <span :class="item.fixed? 'glyphicon glyphicon-pushpin'
-                                  : 'glyphicon glyphicon-resize-vertical'"
-          @click=" item.fixed=! item.fixed" aria-hidden="true" v-show="editable">
-          </span>
-          {{item.content}}
+    <draggable v-model='todayItems' :options="dragOptions" :move="onMove"
+    element="div" class="container-fluid">
+      <transition-group type="transition" :name="'flip-list'">
+        <div class="row list-group-item" v-for="(item,index) in todayItems" :key="index">
+
+          <i class="col-xs-1 fa fa-arrows" v-show="editable"></i>
+          <input type="checkbox" class="col-xs-1 input-sm" v-show="!editable" >
+
+          <p class="col-xs-10 daily-cut daily-middle">{{item.content}}</p>
+
+          <button class="btn btn-default" v-show="editable"
+                  @click="deleteToday(index)">
+            <i class="col-xs-1 fa fa-trash-o"></i>
+          </button>
+
         </div>
       </transition-group>
     </draggable>
@@ -25,6 +42,8 @@
 
 <script>
 import draggable from 'vuedraggable'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Today',
   data () {
@@ -54,10 +73,18 @@ export default {
     },
   },
   methods: {
+    ...mapMutations([   // 映射
+      'deleteToday'
+    ]),
     onMove ({relatedContext, draggedContext}) {
       const relatedElement = relatedContext.element;
-      const draggedElement = draggedContext.element;
-      return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
+      return relatedElement
+    },
+    clear(){
+      let conf = confirm("列表内的清单将被清空，确定要清空此列表吗？")
+      if(conf){
+        this.$store.commit("clearToday")
+      }
     }
   },
   components:{ draggable }

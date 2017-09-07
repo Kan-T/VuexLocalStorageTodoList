@@ -9,7 +9,7 @@
     </nav>
 
     <div v-show="showDone">
-      <div class="list-group-item daily-cut" v-for="(item,index) in Done" :key="index">
+      <div class="list-group-item daily-cut" v-for="(item,index) in doneHistory" :key="index">
         {{item.content}}
       </div>
     </div>
@@ -21,43 +21,25 @@
 export default {
   name: 'Done',
   data () {
+    return {
+      showDone:false
+    }
   },
   computed:{
-    // ...mapGetters([
-    //   'todayItems',
-    // ]),
+    doneHistory(){
+      return this.$store.state.doneHistory.items;
+    }
   },
   methods: {
     seeDone(){
       this.showDone=!this.showDone;
     },
-    savePlan(){
-      this.editable=!this.editable;
-      this.$store.dispatch('saveStore');
-    },
-    onMove ({relatedContext, draggedContext}) {
-      const relatedElement = relatedContext.element;
-      const draggedElement = draggedContext.element;
-      return (!relatedElement || !relatedElement.fixed) && !draggedElement.fixed
-    }
   },
-  mounted(){
-    this.$store.commit("loadStore")
-    console.log("In Today mounted: " + JSON.stringify(this.todayItems))
-  },
-  components:{ draggable }
+  components:{ }
 }
 </script>
 
 
 <style scoped>
-
-.flip-list-move {
-  transition: transform 0.5s;
-}
-.ghost {
-  opacity: .5;
-  background: #C8EBFB;
-}
 
 </style>

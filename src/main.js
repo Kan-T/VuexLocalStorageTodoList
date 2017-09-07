@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 
+import 'font-awesome/css/font-awesome.css'
+
 // 1. npm install vue-router --save
 // 2. import vue-router
 import Router from 'vue-router'
