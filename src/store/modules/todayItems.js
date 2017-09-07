@@ -2,34 +2,40 @@ const state = {
   items: [
     {
       content:"学习",
-      done:false
+      fixed:false,
     },
     {
       content:"游泳",
-      done:false
+      fixed:false,
     },
     {
       content:"跑步",
-      done:true
+      fixed:false,
     }
   ]
 }
 
 // getters
 const getters = {
-  todayTodo:(state => state.items.filter( item => !item.done )),
-  todayDone:(state => state.items.filter( item => item.done )),
 }
 
 // actions
 const actions = {
-
+  saveToday (context) {
+    context.commit('saveToday')
+  }
 }
 
 // mutations
 const mutations = {
-  addToday (state, payload){
-    state.items.push(payload)
+  addToday(state, item){
+    state.items.push(item)
+  },
+  saveToday(state, items){
+    state.items = items
+  },
+  deleteToday(state,index){
+    state.items.splice(index, 1)
   }
 }
 
