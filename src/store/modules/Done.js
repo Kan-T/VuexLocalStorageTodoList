@@ -1,5 +1,5 @@
 import Local from './Local'
-const localDone = new Local("doneHistory")
+const localDone = new Local("Done")
 
 const state = localDone.get() || {
     items: []

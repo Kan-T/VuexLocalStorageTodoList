@@ -1,5 +1,5 @@
 import Local from './Local'
-const localToday = new Local("todayItems" )
+const localToday = new Local("Today" )
 
 const state = localToday.get() || {
     date:'',
