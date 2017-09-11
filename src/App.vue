@@ -17,6 +17,9 @@
         <li :class="{active: (activeLi==4)}"><a id="已完成">
             已完成<span class="glyphicon glyphicon-repeat" aria-hidden="true">
         </span></a></li>
+        <li :class="{active: (activeLi==5)}"><a :id="otherLists[0]">
+            {{otherLists[0]}}
+        </a></li>
       </ul>
     </nav>
     <router-view></router-view>
@@ -24,14 +27,15 @@
 </template>
 
 <script>
-import {  } from 'vue-strap'
+
 
 export default {
   name: 'app',
   data(){
     return{
       activeLi:0,
-      showLeft:false
+      showLeft:false,
+      otherLists:["电影"]
     }
   },
   methods: {
@@ -57,6 +61,10 @@ export default {
       case "已完成":
         this.activeLi=4;
         this.$router.push('/done');
+        break;
+      case this.otherLists[0]:
+        this.activeLi=5;
+        this.$router.push({ name: 'others', query:{listName: this.otherLists[0]} });
         break;
       }
     }
