@@ -1,34 +1,37 @@
 <template>
-  <form class="container">
-    <div class="row">
-      <div class="col-sm-2">
-        <label for="content">待办事项</label>
+    <form class="form-inline container-fluid cbp-spmenu cbp-fixed-bottom cbp-input-bottom" @click="showMore">
+      <div v-show="showDetail">
+        <div class="row">
+          <div class="form-group col-xs-11">
+  <!--           <label for="targetDate">到期日</label>
+            <input type="date" class="form-control" id="targetDate" v-model="item.targetDate"> -->
+          </div>
+          <a class="btn col-xs-1" @click="closeMore">
+            <i class="fa fa-close cbp-black"></i>
+          </a>
+        </div>
+        <div class="row">
+        ..
+        </div>
       </div>
-      <div class="col-sm-10">
-        <textarea id="content" required class="form-control" rows="3" v-model="item.content"></textarea>
+
+      <div class="row">
+        <div class="col-xs-9">
+          <input type="text" required class="form-control" placeholder="要添加的内容"
+                v-model="item.content" style="width:100%;">
+        </div>
+        <div class="col-xs-1" @click="item.flag=!item.flag">
+          <span class="fa-stack fa-lg" >
+            <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
+            <i :class="flagClass"></i>
+          </span>
+        </div>
+        <div class="col-xs-2 ">
+          <button class="btn btn-default" @click="add">添加</button>
+        </div>
       </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-sm-2">
-          <label for="targetDate">到期日</label>
-      </div>
-      <div class="col-sm-10">
-        <input type="date" class="form-control" id="targetDate" v-model="item.targetDate">
-      </div>
-    </div>
-    <br>
-    <div class="row">
-      <div class="col-sm-2">
-          <label for="flag" v-model="item.flag">旗标</label>
-      </div>
-      <div class="col-sm-10">
-        <input type="checkbox" id="flag">
-      </div>
-    </div>
-    <br>
-    <button class="btn btn-default center-block" @click="add">  添 加  </button>
-  </form>
+
+    </form>
 </template>
 
 <script>
@@ -36,18 +39,41 @@ export default {
   name: 'AddTodo',
   data () {
     return {
-      item:{}
+      showDetail:false,
+      item:{
+        content:"",
+        flag:false
+      }
     }
   },
+  computed:{
+    flagClass() {
+      return{
+        "fa": true,
+        "fa-flag": true,
+        "fa-stack-1x": true,
+        "fa-inverse": true,
+        }
+    },
+  },
+  props:["local"],
   methods: {
     add(){
-      this.$store.commit("addToday",this.item)
-      this.$router.push('/')
-    }
+      console.log(this.item)
+      if(this.item.content!=''){
+        this.local.addList(this.item)
+        this.closeMore()
+      }
+    },
+    showMore(){
+      this.showDetail = true
+    },
+    closeMore(){
+      this.showDetail = false
+    },
   },
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
