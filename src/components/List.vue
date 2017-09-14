@@ -37,19 +37,21 @@
                 <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
               </span>
             </div>
-
         </div>
       </transition-group>
     </draggable>
 
-    <form class="form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom" @click="showMore">
+    <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom"
+        @click="showMore">
       <div v-show="showDetail">
         <div class="row">
           <div class="form-group col-xs-11">
           </div>
-          <a class="btn col-xs-1" @click="closeMore">
-            <i class="fa fa-close cbp-black"></i>
-          </a>
+          <div class="form-group col-xs-1">
+            <button type="button" class="close" aria-label="Close" @click="closeMore">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
         </div>
         <div class="row">
         ..
@@ -67,7 +69,7 @@
             <i :class="addFlagClass"></i>
           </span>
         </div>
-        <div class="col-xs-2 ">
+        <div class="col-xs-2">
           <button class="btn btn-default" @click="add">添加</button>
         </div>
       </div>
@@ -81,11 +83,12 @@ import draggable from 'vuedraggable'
 import Local from '../Local'
 
 export default {
-  name: 'Others',
+  name: 'List',
   data () {
     return {
       editable: false,
       listName: this.$route.query.listName,
+      listLocal: (new Local(this.listName)),
       showDetail: false,
       items:[{content:"",flag:false}],
       addItem: {
@@ -97,10 +100,17 @@ export default {
   created(){
     this.items=this.listLocal.get() || []
   },
+  watch: {
+    "$route": function(newRoute){
+      this.listName=newRoute.query.listName
+      this.listLocal = new Local(this.listName)
+      this.items=this.listLocal.get() || []
+    }
+  },
   computed:{
-    listLocal(){
-      return new Local(this.listName)
-    },
+    // listLocal(){
+    //   return new Local(this.listName)
+    // },
     dragOptions () {
       return {
         animation: 0,
@@ -166,6 +176,7 @@ export default {
     },
     closeMore(){
       this.showDetail = false
+      console.log('showDetail: ' + this.showDetail)
     },
   },
   components:{ draggable }

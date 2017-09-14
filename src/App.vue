@@ -12,8 +12,6 @@ export default {
   name: 'app',
   data(){
     return{
-      activeLi:0,
-      showLeft:false,
     }
   },
   methods: {

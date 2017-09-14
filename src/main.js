@@ -12,8 +12,6 @@ import './assets/css/side-bar.css'
 import Router from 'vue-router'
 import routes from './routes'
 
-import store from './store'
-
 // 3. use vue-router
 Vue.use(Router)
 
@@ -31,7 +29,6 @@ new Vue({
   // 5. add router into Vue instance
   // router: router,    //In ES6, if key&value are the same, we can write as below.
   router,
-  store,
   template: '<App/>',
   components: { App }
 })
