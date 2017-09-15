@@ -1,11 +1,11 @@
 // 7. import components we can route to
 import List from './components/List'
+import Primary from './components/Primary'
 
 const routes = [
     {
         path: '/',
-        redirect: '/list?listName=今日待办',
-        component: List
+        component: Primary
     },
     {
         path: '/list',

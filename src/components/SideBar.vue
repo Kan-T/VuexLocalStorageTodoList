@@ -29,7 +29,7 @@ export default {
   name: 'SideBar',
   data () {
     return {
-      activeLi:0,
+      activeLi:-1,
       todoList:["今日","明日","本周","本月","未来","固定习惯"],
       otherList:[],
       addItem:"",
@@ -38,7 +38,14 @@ export default {
     }
   },
   created(){
-    this.otherList = this.otherListLocal.get() || []
+    this.otherList = this.otherListLocal.get() || []      //initialize otherList
+
+    let listName=this.$route.query.listName
+    if(listName){                                        //刷新时，让active正确的列表项
+      let list = this.todoList.concat(this.otherList)
+      this.activeLi=list.indexOf(listName)
+    }
+
   },
   computed:{
     otherListLocal(){
@@ -69,7 +76,7 @@ export default {
       let i = this.todoList.indexOf(text)
       if(i>=0){
         this.activeLi = i
-        this.$router.push({ name: 'list', query:{'listName': text} })
+        this.$router.push({ name:'list', query:{'listName':text} })
       }
 
       i = this.otherList.indexOf(text)
@@ -86,7 +93,7 @@ export default {
     add(){
       let i = this.todoList.indexOf(this.addItem)
       let j = this.otherList.indexOf(this.addItem)
-      if(this.addItem!='' & i>=0 & j>=0){
+      if(this.addItem!='' & i<0 & j<0){
         this.otherList.push(this.addItem)
         this.otherListLocal.set(this.otherList)
       }

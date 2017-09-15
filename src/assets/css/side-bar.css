@@ -148,6 +148,10 @@
   color:#9E9E9E;
 }
 
+.cbp-hide{
+  display: none;
+}
+
 .cbp-red{
   color:red;
 }

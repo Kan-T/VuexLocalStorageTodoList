@@ -43,7 +43,7 @@
 
     <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom"
         @click="showMore">
-      <div v-show="showDetail">
+      <div :class="{ 'cbp-hide': !showDetail }">
         <div class="row">
           <div class="form-group col-xs-11">
           </div>
@@ -61,9 +61,9 @@
       <div class="row">
         <div class="col-xs-9">
           <input type="text" class="form-control" placeholder="要添加的内容"
-                v-model="addItem.content" style="width:100%;">
+                v-model="addContent" style="width:100%;">
         </div>
-        <div class="col-xs-1" @click="addItem.flag=!addItem.flag">
+        <div class="col-xs-1" @click="addFlag=!addFlag">
           <span class="fa-stack fa-lg">
             <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
             <i :class="addFlagClass"></i>
@@ -90,27 +90,24 @@ export default {
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
       showDetail: false,
+      addContent:"",
+      addFlag: false,
       items:[{content:"",flag:false}],
-      addItem: {
-        content:"",
-        flag: false
-      }
     }
   },
   created(){
+    this.listName=this.$route.query.listName     //刷新时，可更新
+    this.listLocal = new Local(this.listName)
     this.items=this.listLocal.get() || []
   },
   watch: {
-    "$route": function(newRoute){
+    "$route": function(newRoute){                //路由进入时，可更新
       this.listName=newRoute.query.listName
       this.listLocal = new Local(this.listName)
       this.items=this.listLocal.get() || []
     }
   },
   computed:{
-    // listLocal(){
-    //   return new Local(this.listName)
-    // },
     dragOptions () {
       return {
         animation: 0,
@@ -125,7 +122,7 @@ export default {
         "fa-flag": true,
         "fa-stack-1x": true,
         "fa-inverse": true,
-        "cbp-red" : this.addItem.flag
+        "cbp-red" : this.addFlag
       }
     },
     flagClass(){
@@ -134,7 +131,7 @@ export default {
         "fa-flag": true,
         "fa-stack-1x": true,
         "fa-inverse": true,
-        "cbp-red" : this.addItem.flag
+        "cbp-red" : this.addFlag
       }
     },
   },
@@ -161,13 +158,14 @@ export default {
       }
     },
     add(){
-      if(this.addItem.content){
+      if(this.addContent){
+        let addItem = {content:this.addContent,flag:this.addFlag}
 
-        this.items.push(this.addItem)
-
+        this.items.push(addItem)
         this.listLocal.set(this.items)
 
-        this.addItem={}
+        this.addContent=''
+        this.addFlag=false
         this.closeMore()
       }
     },
