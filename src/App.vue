@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="cbp-spmenu-push">
+  <div id="app" class="cbp-spmenu-push" >
     <side-bar></side-bar>
     <router-view></router-view>
   </div>
@@ -31,9 +31,5 @@ export default {
   overflow:hidden;
   text-overflow:ellipsis;
   white-space: nowrap;
-}
-.daily-middle {
-  display:table-cell;
-  vertical-align:middle;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
     <nav class="navbar navbar-default nav-justified">
+      <div class="col-xs-1" @click.stop="toggleLeft"><i class="fa fa-bars fa-fw navbar-brand"></i></div>
       <p class="navbar-brand"></p>
     </nav>
 
@@ -22,6 +23,9 @@ export default {
   computed:{
   },
   methods: {
+    toggleLeft(){
+      this.$store.commit("toggleSide")
+    },
   },
   components:{ }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="cbp-spmenu-push">
     <nav :class="sideClass1" id="cbp-spmenu-s1" @click="goto">
-      <h3><i class="fa fa-chevron-left" @click="showLeft"></i> 列表</h3>
+      <h3 @click.stop="toggleLeft" ><i class="fa fa-chevron-left"></i> 关闭列表</h3>
       <template v-for="(element,index) in todoList">
         <a :class="{active: (activeLi==index)}">{{element}}</a>
       </template>
@@ -18,11 +18,12 @@
       </form>
 
     </nav>
-    <div :class="sideClass2" @click="showLeft"><i class="fa fa-chevron-right"></i></div>
+    <div :class="sideClass2" @click="toggleLeft"><i class="fa fa-chevron-right"></i></div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Local from '../Local'
 
 export default {
@@ -30,11 +31,10 @@ export default {
   data () {
     return {
       activeLi:-1,
-      todoList:["今日","明日","本周","本月","未来","固定习惯"],
+      todoList:["今日","明日","本周","本月","未来","固定习惯","已完成"],
       otherList:[],
       addItem:"",
       addError:"",
-      open:false
     }
   },
   created(){
@@ -48,6 +48,9 @@ export default {
 
   },
   computed:{
+    showSide(){
+      return this.$store.state.SideBar.showSide
+    },
     otherListLocal(){
       return new Local("otherList")
     },
@@ -56,7 +59,7 @@ export default {
         "cbp-spmenu": true,
         "cbp-spmenu-vertical": true,
         "cbp-spmenu-left": true,
-        "cbp-spmenu-open": this.open
+        "cbp-spmenu-open": this.showSide
       }
     },
     sideClass2(){
@@ -64,7 +67,7 @@ export default {
         "cbp-spmenu": true,
         "show-bar": true,
         "cbp-spmenu-left": true,
-        "cbp-spmenu-open": this.open,
+        "cbp-spmenu-open": this.showSide,
         "center-block":true
       }
     }
@@ -72,22 +75,18 @@ export default {
   methods: {
     goto(e){                     //进入各子列表，用不同的listName名称复用List组件
       let text = e.target.text;
-
-      let i = this.todoList.indexOf(text)
+      let list = this.todoList.concat(this.otherList)
+      let i = list.indexOf(text)
       if(i>=0){
         this.activeLi = i
         this.$router.push({ name:'list', query:{'listName':text} })
       }
 
-      i = this.otherList.indexOf(text)
-      if(i>=0){
-        this.activeLi = i+this.todoList.length
-        this.$router.push({ name: 'list', query:{'listName': text} })
-      }
+      this.toggleLeft()
     },
 
-    showLeft(){
-      this.open=!this.open
+    toggleLeft(){
+      this.$store.commit("toggleSide")
     },
 
     add(){

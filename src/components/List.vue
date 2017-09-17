@@ -3,11 +3,13 @@
     <nav class="navbar navbar-default nav-justified">
       <div class="container-fluid">
         <div class=row>
-          <p class="navbar-brand col-xs-3">{{listName}}</p>
+          <div class="col-xs-1" @click.stop="toggleLeft"><i class="fa fa-bars fa-fw navbar-brand"></i></div>
+
+          <p class="navbar-brand col-xs-2">{{listName}}</p>
           <div class="col-xs-6"></div>
 
           <button class="btn btn-default navbar-btn col-xs-1"
-            @click="clear"><i class="fa fa-trash-o"></i> 清空
+            @click="clear">清空<i class="fa fa-trash-o"></i>
           </button>
           <div class="col-xs-1"></div>
           <button class="btn btn-default navbar-btn col-xs-1"
@@ -22,20 +24,28 @@
       <transition-group type="transition" :name="'flip-list'">
         <div class="row list-group-item" v-for="(item,index) in items" :key="index">
 
-            <i class="col-xs-1 fa fa-arrows" v-show="editable"></i>
-            <input type="checkbox" class="col-xs-1 input-sm" v-show="!editable" >
+            <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
+            <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" v-show="!editable" @change.stop="setDone(index)">
 
-            <p class="col-xs-10 daily-cut daily-middle">{{item.content}}</p>
+            <div class="col-xs-9 form-control-static">
+              <p class="daily-cut">{{item.content}}</p>
+            </div>
 
-            <button class="btn btn-default col-xs-1" v-show="editable"
-                    @click="deleteItem(index)">
-              <i class="fa fa-trash-o"></i>
-            </button>
-            <div class="col-xs-1" @click="item.flag=!item.flag" v-show="!editable">
-              <span class="fa-stack fa-lg" >
-                <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
-                <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
-              </span>
+            <div class="col-xs-1 form-control-static">
+              <button class="btn btn-default" v-show="editable"
+                      @click="deleteItem(index)">
+                <i class="fa fa-trash-o"></i>
+              </button>
+              <div @click="item.flag=!item.flag" v-show="!editable">
+                <span class="fa-stack fa-fw" >
+                  <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
+                  <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
+                </span>
+              </div>
+            </div>
+
+            <div class="col-xs-1 form-control-static">
+              <button class="btn btn-default" @click.stop=""><i class="fa fa-bars fa-fw "></i></button>
             </div>
         </div>
       </transition-group>
@@ -89,10 +99,11 @@ export default {
       editable: false,
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
+      doneLocal: (new Local("已完成")),     //必须与SideBar.vue中的todoList里的最后一项“已完成”相同
       showDetail: false,
       addContent:"",
       addFlag: false,
-      items:[{content:"",flag:false}],
+      items:[{content:"",flag:false,done:false}],
     }
   },
   created(){
@@ -169,6 +180,15 @@ export default {
         this.closeMore()
       }
     },
+    setDone(index){
+      setTimeout(()=>{
+        this.doneLocal.addList(this.items[index])
+        this.deleteItem(index)
+      }, 500)
+    },
+    toggleLeft(){
+      this.$store.commit("toggleSide")
+    },
     showMore(){
       this.showDetail = true
     },
@@ -189,5 +209,9 @@ export default {
 .ghost {
   opacity: .5;
   background: #C8EBFB;
+}
+
+.vertial-middle{
+  vertical-align:middle;
 }
 </style>
