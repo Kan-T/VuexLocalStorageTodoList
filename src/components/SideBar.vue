@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       activeLi:-1,
-      todoList:["今日","明日","本周","本月","未来","固定习惯","已完成"],
+      todoList:["今日","明日","本周","未来","固定习惯","已完成"],
       otherList:[],
       addItem:"",
       addError:"",

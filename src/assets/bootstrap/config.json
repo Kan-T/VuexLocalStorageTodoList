@@ -390,7 +390,6 @@
     "forms.less",
     "buttons.less",
     "responsive-utilities.less",
-    "glyphicons.less",
     "button-groups.less",
     "input-groups.less",
     "navs.less",
@@ -409,8 +408,14 @@
     "panels.less",
     "responsive-embed.less",
     "wells.less",
-    "close.less"
+    "close.less",
+    "component-animations.less",
+    "dropdowns.less",
+    "tooltip.less",
+    "popovers.less",
+    "modals.less",
+    "carousel.less"
   ],
   "js": [],
-  "customizerUrl": "http://v3.bootcss.com/customize/?id=5ec8c7d7440118ae329780237baf2cf4"
+  "customizerUrl": "http://v3.bootcss.com/customize/?id=efdfc2aee437c772982a9fc604dacab5"
 }

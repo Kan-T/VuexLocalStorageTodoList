@@ -20,58 +20,58 @@
         </div>
       </div>
     </nav>
+
     <draggable v-model='items' :options="dragOptions" :move="onMove"  element="div" class="container-fluid">
       <transition-group type="transition" :name="'flip-list'">
         <div class="row list-group-item" v-for="(item,index) in items" :key="index">
 
-            <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
-            <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" v-show="!editable" @change.stop="setDone(index)">
+          <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
+          <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" v-show="!editable" @change.stop="setDone(index)">
 
-            <div class="col-xs-9 form-control-static">
-              <p class="daily-cut">{{item.content}}</p>
-            </div>
+          <div class="col-xs-9 form-control-static">
+            <p class="daily-cut">{{item.content}}</p>
+          </div>
 
-            <div class="col-xs-1 form-control-static">
-              <button class="btn btn-default" v-show="editable"
-                      @click="deleteItem(index)">
-                <i class="fa fa-trash-o"></i>
-              </button>
-              <div @click="item.flag=!item.flag" v-show="!editable">
-                <span class="fa-stack fa-fw" >
-                  <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
-                  <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
-                </span>
-              </div>
+          <div class="col-xs-1 form-control-static">
+            <button class="btn btn-default" v-show="editable"
+                    @click="deleteItem(index)">
+              <i class="fa fa-trash-o"></i>
+            </button>
+            <div @click="item.flag=!item.flag" v-show="!editable">
+              <span class="fa-stack fa-fw" >
+                <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
+                <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
+              </span>
             </div>
+          </div>
 
-            <div class="col-xs-1 form-control-static">
-              <button class="btn btn-default" @click.stop=""><i class="fa fa-bars fa-fw "></i></button>
-            </div>
+          <div class="col-xs-1 form-control-static">
+            <dropdown></dropdown>
+          </div>
         </div>
       </transition-group>
     </draggable>
 
-    <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom"
-        @click="showMore">
-      <div :class="{ 'cbp-hide': !showDetail }">
+    <div class="row">
+      .
+    </div>
+
+    <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom">
+      <div v-show="showDetail">
         <div class="row">
           <div class="form-group col-xs-11">
           </div>
-          <div class="form-group col-xs-1">
-            <button type="button" class="close" aria-label="Close" @click="closeMore">
+          <div class="form-group col-xs-1" @click="showDetail=false">
+            <button type="button" class="close" aria-label="Close" >
                 <span aria-hidden="true">&times;</span>
             </button>
           </div>
-        </div>
-        <div class="row">
-        ..
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-9">
-          <input type="text" class="form-control" placeholder="要添加的内容"
-                v-model="addContent" style="width:100%;">
+          <input type="text" class="form-control" placeholder="要添加的内容" style="width:100%;" v-model="addContent" @click="showDetail=true">
         </div>
         <div class="col-xs-1" @click="addFlag=!addFlag">
           <span class="fa-stack fa-lg">
@@ -91,6 +91,7 @@
 <script>
 import draggable from 'vuedraggable'
 import Local from '../Local'
+import dropdown from './Dropdown'
 
 export default {
   name: 'List',
@@ -177,7 +178,8 @@ export default {
 
         this.addContent=''
         this.addFlag=false
-        this.closeMore()
+
+        this.showDetail=false
       }
     },
     setDone(index){
@@ -189,15 +191,8 @@ export default {
     toggleLeft(){
       this.$store.commit("toggleSide")
     },
-    showMore(){
-      this.showDetail = true
-    },
-    closeMore(){
-      this.showDetail = false
-      console.log('showDetail: ' + this.showDetail)
-    },
   },
-  components:{ draggable }
+  components:{ draggable, dropdown }
 }
 </script>
 
