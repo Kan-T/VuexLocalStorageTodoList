@@ -12,9 +12,9 @@ const actions = {
 
 // mutations
 const mutations = {
-    toggleSide(){
-        state.showSide = !state.showSide
-    }
+  toggleSide(){
+    state.showSide = !state.showSide
+  }
 }
 
 export default {

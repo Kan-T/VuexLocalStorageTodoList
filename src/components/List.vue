@@ -56,34 +56,7 @@
 
     <div class="row"><br><br><br></div>
 
-    <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom">
-      <div v-show="showDetail">
-        <div class="row">
-          <div class="form-group col-xs-11">
-          </div>
-          <div class="form-group col-xs-1" @click="showDetail=false">
-            <button type="button" class="close" aria-label="Close" >
-                <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-9">
-          <input type="text" class="form-control" placeholder="要添加的内容" style="width:100%;" v-model="addContent" @click="showDetail=true">
-        </div>
-        <div class="col-xs-1" @click="addFlag=!addFlag">
-          <span class="fa-stack fa-lg">
-            <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
-            <i :class="addFlagClass"></i>
-          </span>
-        </div>
-        <div class="col-xs-2">
-          <button class="btn btn-default" @click="add">添加</button>
-        </div>
-      </div>
-    </form>
+    <addtodo @add="add"></addtodo>
 
   </div>
 </template>
@@ -92,19 +65,17 @@
 import draggable from 'vuedraggable'
 import Local from '../Local'
 import dropdown from './Dropdown'
+import addtodo from './AddTodo'
 
 export default {
   name: 'List',
   data () {
     return {
       editable: false,
+      items:[],
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
       doneLocal: (new Local("已完成")),     //必须与SideBar.vue中的todoList里的最后一项“已完成”相同
-      showDetail: false,
-      addContent:"",
-      addFlag: false,
-      items:[{content:"",flag:false,done:false}],
     }
   },
   created(){
@@ -126,15 +97,6 @@ export default {
         group: 'description',
         disabled: !this.editable,
         ghostClass: 'ghost'
-      }
-    },
-    addFlagClass(){
-      return {
-        "fa": true,
-        "fa-flag": true,
-        "fa-stack-1x": true,
-        "fa-inverse": true,
-        "cbp-red" : this.addFlag
       }
     },
     flagClass(){
@@ -169,18 +131,12 @@ export default {
         this.listLocal.clear()
       }
     },
-    add(){
-      if(this.addContent){
-        let addItem = {content:this.addContent,flag:this.addFlag}
+    add(obj){
+      this.items.push(obj)
+      this.listLocal.set(this.items)
 
-        this.items.push(addItem)
-        this.listLocal.set(this.items)
-
-        this.addContent=''
-        this.addFlag=false
-
-        this.showDetail=false
-      }
+      this.addContent=''
+      this.addFlag=false
     },
     setDone(index){
       setTimeout(()=>{
@@ -200,7 +156,7 @@ export default {
       targetLocal.addList(itemTemp)
     }
   },
-  components:{ draggable, dropdown }
+  components:{ draggable, dropdown, addtodo}
 }
 </script>
 
@@ -214,7 +170,4 @@ export default {
   background: #C8EBFB;
 }
 
-.vertial-middle{
-  vertical-align:middle;
-}
 </style>
