@@ -1,31 +1,36 @@
 <template>
-  <div class="dropdown">
-    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" aria-haspopup="true" aria-expanded="false" @click="showDrop=!showDrop">
+  <div class="dropdown" @click="show=!show">
+    <button class="btn btn-default dropdown-toggle" type="button">
       <i class="fa fa-copy fa-fw "></i>
     </button>
-    <ul class="my-dropdown-menu" aria-labelledby="dropdownMenu1" v-show="showDrop">
-      <li><a>今日</a></li>
-      <li><a>明日</a></li>
-      <li><a>本周</a></li>
-      <li><a>未来</a></li>
+    <ul class="my-dropdown-menu" v-if="show">
+      <li v-for="(item,i) in list" :key="i" @click="emit(i)"><a>{{item}}</a></li>
     </ul>
   </div>
 </template>
 
 <script>
-
-
 export default {
   name: 'Dropdown',
   data () {
     return {
       list:["今日","明日","本周","未来"],
-      showDrop:false
+      show:false
     }
   },
+  props:["listName","ind"],
   computed:{
   },
   methods: {
+    emit(i){
+      let targetList = this.list[i]
+
+      if(targetList==this.listName){
+
+      }else{
+        this.$emit("move", this.ind, targetList)
+      }
+    }
   },
   components:{ }
 }
@@ -40,7 +45,7 @@ export default {
   right: 100%;
   z-index: 1000;
   float: left;
-  min-width: 150%;
+  min-width: 250%;
   padding: 5px 0;
   margin: 2px 0 0;
   list-style: none;

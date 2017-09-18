@@ -46,15 +46,15 @@
           </div>
 
           <div class="col-xs-1 form-control-static">
-            <dropdown></dropdown>
+            <dropdown :listName="listName" :ind="index" @move="moveTo">
+            </dropdown>
           </div>
+
         </div>
       </transition-group>
     </draggable>
 
-    <div class="row">
-      .
-    </div>
+    <div class="row"><br><br><br></div>
 
     <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom">
       <div v-show="showDetail">
@@ -191,6 +191,14 @@ export default {
     toggleLeft(){
       this.$store.commit("toggleSide")
     },
+    moveTo(ind,targetList){
+      // console.log(ind + targetList)
+      let targetLocal = new Local(targetList)
+      let itemTemp = this.items.splice(ind, 1)[0]
+
+      this.listLocal.set(this.items)
+      targetLocal.addList(itemTemp)
+    }
   },
   components:{ draggable, dropdown }
 }
