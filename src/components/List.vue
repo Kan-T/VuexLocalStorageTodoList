@@ -9,12 +9,12 @@
           <div class="col-xs-6"></div>
 
           <button class="btn btn-default navbar-btn col-xs-1"
-            @click="clear">清空<i class="fa fa-trash-o"></i>
+            @click="clear">{{CONST.EMPTY}}<i class="fa fa-trash-o"></i>
           </button>
           <div class="col-xs-1"></div>
           <button class="btn btn-default navbar-btn col-xs-1"
             @click="editList">
-            {{this.editable?"完成":"编辑"}}
+            {{ this.editable ? CONST.SAVE : CONST.EDIT }}
           </button>
 
         </div>
@@ -66,16 +66,18 @@ import draggable from 'vuedraggable'
 import Local from '../Local'
 import dropdown from './Dropdown'
 import addtodo from './AddTodo'
+import * as CONST from '../Const'
 
 export default {
   name: 'List',
   data () {
     return {
+      CONST:CONST,
       editable: false,
       items:[],
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
-      doneLocal: (new Local("已完成")),     //必须与SideBar.vue中的todoList里的最后一项“已完成”相同
+      doneLocal: (new Local(CONST.DONE)),     //必须与SideBar.vue中的todoList里的最后一项“已完成”相同
     }
   },
   created(){
@@ -115,6 +117,7 @@ export default {
       if(!this.editable){
         this.listLocal.set(this.items)
       }
+      this.$store.commit("closeSide")
     },
     onMove ({relatedContext, draggedContext}) {
       const relatedElement = relatedContext.element;
@@ -122,10 +125,10 @@ export default {
     },
     deleteItem(index){
       this.items.splice(index, 1)
-      this.listLocal.set(this.items)
+      // this.listLocal.set(this.items)
     },
     clear(){
-      let conf = confirm("列表内的清单将被清空，确定要清空此列表吗？")
+      let conf = confirm(CONST.EMPTY_CONFIRM)
       if(conf){
         this.items = []
         this.listLocal.clear()
@@ -142,6 +145,7 @@ export default {
       setTimeout(()=>{
         this.doneLocal.addList(this.items[index])
         this.deleteItem(index)
+        this.listLocal.set(this.items)
       }, 500)
     },
     toggleLeft(){

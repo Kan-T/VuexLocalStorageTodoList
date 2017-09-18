@@ -1,7 +1,7 @@
 <template>
   <div class="cbp-spmenu-push">
     <nav :class="sideClass1" id="cbp-spmenu-s1" @click="goto">
-      <h3 @click.stop="toggleLeft" ><i class="fa fa-chevron-left"></i> 关闭列表</h3>
+      <h3 @click.stop="toggleLeft" ><i class="fa fa-chevron-left"></i> {{CONST.CLOSE_LIST}}</h3>
       <template v-for="(element,index) in todoList">
         <a :class="{active: (activeLi==index)}">{{element}}</a>
       </template>
@@ -10,7 +10,7 @@
       </template>
 
       <form class="form-inline cbp-fixed-bottom ">
-          <input type="text" id="content" required placeholder="要添加的列表"
+          <input type="text" id="content" required :placeholder="CONST.LIST_TO_ADD"
                 v-model="addItem">
           <button type="submit" class="btn btn-default" @click="add">
             <i class="fa fa-plus"></i>
@@ -25,13 +25,15 @@
 <script>
 import { mapState } from 'vuex'
 import Local from '../Local'
+import * as CONST from '../Const'
 
 export default {
   name: 'SideBar',
   data () {
     return {
+      CONST:CONST,
       activeLi:-1,
-      todoList:["今日","明日","本周","未来","固定习惯","已完成"],
+      todoList:[CONST.TODAY, CONST.TOMORROW, CONST.WEEK, CONST.FUTURE, CONST.CUSTOM, CONST.DONE],
       otherList:[],
       addItem:"",
       addError:"",
@@ -80,9 +82,9 @@ export default {
       if(i>=0){
         this.activeLi = i
         this.$router.push({ name:'list', query:{'listName':text} })
+        this.toggleLeft()
       }
 
-      this.toggleLeft()
     },
 
     toggleLeft(){

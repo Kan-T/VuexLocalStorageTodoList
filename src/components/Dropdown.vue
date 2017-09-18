@@ -10,11 +10,13 @@
 </template>
 
 <script>
+import * as CONST from '../Const'
+
 export default {
   name: 'Dropdown',
   data () {
     return {
-      list:["今日","明日","本周","未来"],
+      list:[CONST.TODAY, CONST.TOMORROW, CONST.WEEK, CONST.FUTURE],
       show:false
     }
   },

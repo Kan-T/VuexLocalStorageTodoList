@@ -14,6 +14,9 @@ const actions = {
 const mutations = {
   toggleSide(){
     state.showSide = !state.showSide
+  },
+  closeSide(){
+    state.showSide = false
   }
 }
 

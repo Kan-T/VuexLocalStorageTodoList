@@ -6,18 +6,20 @@
     </nav>
 
     <nav class="navbar navbar-default">
-      <button class="btn btn-default navbar-btn center-block">待办列表</button>
+      <button class="btn btn-default navbar-btn center-block">{{CONST.TODO_LIST}}</button>
     </nav>
 
   </div>
 </template>
 
 <script>
+import * as CONST from '../Const'
 
 export default {
-  name: 'Done',
+  name: 'Primary',
   data () {
     return {
+      CONST:CONST
     }
   },
   computed:{

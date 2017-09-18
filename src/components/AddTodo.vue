@@ -14,7 +14,7 @@
 
     <div class="row">
       <div class="col-xs-9">
-        <input type="text" class="form-control" placeholder="要添加的内容" style="width:100%;" v-model="addContent" @click="showDetail=true">
+        <input type="text" class="form-control" :placeholder="CONST.CONTENT_TO_ADD" style="width:100%;" v-model="addContent" @click="show">
       </div>
       <div class="col-xs-1" @click="addFlag=!addFlag">
         <span class="fa-stack fa-lg">
@@ -23,17 +23,20 @@
         </span>
       </div>
       <div class="col-xs-2">
-        <button class="btn btn-default" @click="add">添加</button>
+        <button class="btn btn-default" @click="add">{{CONST.ADD}}</button>
       </div>
     </div>
   </form>
 </template>
 
 <script>
+import * as CONST from '../Const'
+
 export default {
   name: 'AddTodo',
   data () {
     return {
+      CONST: CONST,
       showDetail: false,
       addContent:"",
       addFlag: false,
@@ -61,8 +64,14 @@ export default {
         }
         this.$emit("add",addItem)
         this.showDetail=false
+        this.addContent=''
+        this.addFlag=false
       }
     },
+    show(){
+      this.showDetail=true
+      this.$store.commit("closeSide")
+    }
   },
   components:{ }
 }
