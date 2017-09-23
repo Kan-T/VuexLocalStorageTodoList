@@ -32,4 +32,8 @@ export default {
   text-overflow:ellipsis;
   white-space: nowrap;
 }
+.flex-row{
+  display: flex;
+  align-items: center;
+}
 </style>

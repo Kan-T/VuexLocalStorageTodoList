@@ -2,6 +2,10 @@
   <div class="cbp-spmenu-push">
     <nav :class="sideClass1" id="cbp-spmenu-s1" @click="goto">
       <h3 @click.stop="toggleLeft" ><i class="fa fa-chevron-left"></i> {{CONST.CLOSE_LIST}}</h3>
+<!--       <button class="btn btn-default navbar-btn col-xs-1"
+        @click="editList">
+        {{ this.editable ? CONST.SAVE : CONST.EDIT }}
+      </button> -->
       <template v-for="(element,index) in todoList">
         <a :class="{active: (activeLi==index)}">{{element}}</a>
       </template>

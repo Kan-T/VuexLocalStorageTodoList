@@ -1,29 +1,26 @@
 <template>
-  <form class="container-fluid form-inline cbp-spmenu cbp-fixed-bottom cbp-input-bottom">
-    <div v-show="showDetail">
-      <div class="row">
-        <div class="form-group col-xs-11">
-        </div>
-        <div class="form-group col-xs-1" @click="showDetail=false">
-          <button type="button" class="close" aria-label="Close" >
-              <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      </div>
+  <form class="list-bottom container-fluid">
+    <div class="row flex-row" v-show="showDetail">
+        <div class="col-xs-11"></div>
+        <button type="button" class="close col-xs-1" aria-label="Close" @click="showDetail=false">
+          <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 
-    <div class="row">
-      <div class="col-xs-9">
+    <div class="row flex-row">
+      <div class="col-xs-10">
         <input type="text" class="form-control" :placeholder="CONST.CONTENT_TO_ADD" style="width:100%;" v-model="addContent" @click="show">
       </div>
       <div class="col-xs-1" @click="addFlag=!addFlag">
-        <span class="fa-stack fa-lg">
+        <span class="fa-stack fa-fw">
           <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
           <i :class="addFlagClass"></i>
         </span>
       </div>
-      <div class="col-xs-2">
-        <button class="btn btn-default" @click="add">{{CONST.ADD}}</button>
+      <div class="col-xs-1 form-control-static" @click="add">
+        <button class="btn btn-default">
+          <i class="fa fa-plus fa-fw"></i>
+        </button>
       </div>
     </div>
   </form>
@@ -78,5 +75,18 @@ export default {
 </script>
 
 <style scoped>
+
+.list-bottom {
+  position: fixed;
+  background: #E5F4FE;
+  bottom: 3px;
+  right: 15px;
+  left: 15px;
+  padding-left: 3px;
+  padding-right: 28px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  z-index: 1030;
+}
 
 </style>

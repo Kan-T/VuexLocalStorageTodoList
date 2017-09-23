@@ -2,17 +2,16 @@
   <div class="container-fluid">
     <nav class="navbar navbar-default nav-justified">
       <div class="container-fluid">
-        <div class=row>
+        <div class="row flex-row">
           <div class="col-xs-1" @click.stop="toggleLeft"><i class="fa fa-bars fa-fw navbar-brand"></i></div>
 
-          <p class="navbar-brand col-xs-2">{{listName}}</p>
-          <div class="col-xs-6"></div>
+          <div class="navbar-brand col-xs-6"><p>{{listName}}</p></div>
 
-          <button class="btn btn-default navbar-btn col-xs-1"
+          <button class="btn btn-default navbar-btn col-xs-2"
             @click="clear">{{CONST.EMPTY}}<i class="fa fa-trash-o"></i>
           </button>
           <div class="col-xs-1"></div>
-          <button class="btn btn-default navbar-btn col-xs-1"
+          <button class="btn btn-default navbar-btn col-xs-2"
             @click="editList">
             {{ this.editable ? CONST.SAVE : CONST.EDIT }}
           </button>
@@ -23,7 +22,7 @@
 
     <draggable v-model='items' :options="dragOptions" :move="onMove"  element="div" class="container-fluid">
       <transition-group type="transition" :name="'flip-list'">
-        <div class="row list-group-item" v-for="(item,index) in items" :key="index">
+        <div class="row flex-row list-group-item" v-for="(item,index) in items" :key="index">
 
           <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
           <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" v-show="!editable" @change.stop="setDone(index)">
@@ -154,9 +153,15 @@ export default {
     moveTo(ind,targetList){
       // console.log(ind + targetList)
       let targetLocal = new Local(targetList)
-      let itemTemp = this.items.splice(ind, 1)[0]
+      let itemTemp
 
-      this.listLocal.set(this.items)
+      if(this.listName == CONST.CUSTOM){
+        itemTemp = this.items[ind]                //For custom, just copy.
+      }else{
+        itemTemp = this.items.splice(ind, 1)[0]
+        this.listLocal.set(this.items)
+      }
+
       targetLocal.addList(itemTemp)
     }
   },
