@@ -1,28 +1,30 @@
 <template>
-  <form class="list-bottom container-fluid">
-    <div class="row flex-row" v-show="showDetail">
-        <div class="col-xs-11"></div>
-        <button type="button" class="close col-xs-1" aria-label="Close" @click="showDetail=false">
-          <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+  <form class="container-fluid ">
+    <nav class="navbar navbar-default-blue fixed-bottom-fluid">
+      <div class="row flex-row" v-show="showDetail">
+          <div class="col-xs-11"></div>
+          <div class="btn col-xs-1 flex-row-item" aria-label="Close" @click="showDetail=false">
+            <i class="fa fa-close"></i>
+          </div>
+      </div>
 
-    <div class="row flex-row">
-      <div class="col-xs-10">
-        <input type="text" class="form-control" :placeholder="CONST.CONTENT_TO_ADD" style="width:100%;" v-model="addContent" @click="show">
+      <div class="flex-row">
+        <div class="flex-row-item-grow">
+          <input type="text" class="form-control" :placeholder="CONST.CONTENT_TO_ADD" style="width:100%;" v-model="addContent" @click="show">
+        </div>
+        <div class="flex-row-item" @click="addFlag=!addFlag">
+          <span class="fa-stack fa-fw">
+            <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
+            <i :class="addFlagClass"></i>
+          </span>
+        </div>
+        <div class="flex-row-item" @click="add">
+          <button class="btn btn-default">
+            <i class="fa fa-plus fa-fw"></i>
+          </button>
+        </div>
       </div>
-      <div class="col-xs-1" @click="addFlag=!addFlag">
-        <span class="fa-stack fa-fw">
-          <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
-          <i :class="addFlagClass"></i>
-        </span>
-      </div>
-      <div class="col-xs-1 form-control-static" @click="add">
-        <button class="btn btn-default">
-          <i class="fa fa-plus fa-fw"></i>
-        </button>
-      </div>
-    </div>
+    </nav>
   </form>
 </template>
 
@@ -82,11 +84,12 @@ export default {
   bottom: 3px;
   right: 15px;
   left: 15px;
-  padding-left: 3px;
-  padding-right: 28px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-right: 30px;
   padding-top: 2px;
   padding-bottom: 2px;
-  z-index: 1030;
+  z-index: 200;
 }
 
 </style>

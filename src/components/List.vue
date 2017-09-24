@@ -1,17 +1,16 @@
 <template>
   <div class="container-fluid">
-    <nav class="navbar navbar-default nav-justified">
+    <nav class="navbar navbar-default-blue">
       <div class="container-fluid">
         <div class="row flex-row">
-          <div class="col-xs-1" @click.stop="toggleLeft"><i class="fa fa-bars fa-fw navbar-brand"></i></div>
+          <div class="flex-row-item" @click.stop="toggleLeft"><i class="fa fa-bars fa-fw navbar-brand"></i></div>
 
-          <div class="navbar-brand col-xs-6"><p>{{listName}}</p></div>
+          <div class="navbar-brand flex-row-item-grow"><p>{{listName}}</p></div>
 
-          <button class="btn btn-default navbar-btn col-xs-2"
+          <button class="btn btn-default navbar-btn flex-row-item"
             @click="clear">{{CONST.EMPTY}}<i class="fa fa-trash-o"></i>
           </button>
-          <div class="col-xs-1"></div>
-          <button class="btn btn-default navbar-btn col-xs-2"
+          <button class="btn btn-default navbar-btn flex-row-item"
             @click="editList">
             {{ this.editable ? CONST.SAVE : CONST.EDIT }}
           </button>
@@ -27,11 +26,11 @@
           <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
           <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" v-show="!editable" @change.stop="setDone(index)">
 
-          <div class="col-xs-9 form-control-static">
-            <p class="daily-cut">{{item.content}}</p>
+          <div class="flex-row-item-grow">
+            <p class="daily-cut form-control-static">{{item.content}}</p>
           </div>
 
-          <div class="col-xs-1 form-control-static">
+          <div class="flex-row-item">
             <button class="btn btn-default" v-show="editable"
                     @click="deleteItem(index)">
               <i class="fa fa-trash-o"></i>
@@ -44,7 +43,7 @@
             </div>
           </div>
 
-          <div class="col-xs-1 form-control-static">
+          <div class="flex-row-item form-control-static">
             <dropdown :listName="listName" :ind="index" @move="moveTo">
             </dropdown>
           </div>
@@ -55,7 +54,7 @@
 
     <div class="row"><br><br><br></div>
 
-    <addtodo @add="add"></addtodo>
+    <addtodo class="row" @add="add"></addtodo>
 
   </div>
 </template>
