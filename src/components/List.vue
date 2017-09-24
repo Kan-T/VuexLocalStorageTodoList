@@ -3,17 +3,25 @@
     <nav class="navbar navbar-default-blue">
       <div class="container-fluid">
         <div class="row flex-row">
-          <div class="flex-row-item" @click.stop="toggleLeft"><i class="fa fa-bars fa-fw navbar-brand"></i></div>
+
+          <div class="col-xs-1 flex-row-item" @click.stop="toggleLeft">
+            <i class="fa fa-bars fa-fw navbar-brand"></i>
+          </div>
 
           <div class="navbar-brand flex-row-item-grow"><p>{{listName}}</p></div>
 
-          <button class="btn btn-default navbar-btn flex-row-item"
-            @click="clear">{{CONST.EMPTY}}<i class="fa fa-trash-o"></i>
-          </button>
-          <button class="btn btn-default navbar-btn flex-row-item"
-            @click="editList">
-            {{ this.editable ? CONST.SAVE : CONST.EDIT }}
-          </button>
+          <div class="flex-row-item">
+            <button class="btn btn-default navbar-btn"
+              @click="clear">{{CONST.EMPTY}}<i class="fa fa-trash-o"></i>
+            </button>
+          </div>
+
+          <div class="flex-row-item">
+            <button class="btn btn-default navbar-btn flex-row-item"
+              @click="editList">
+              {{ this.editable ? CONST.SAVE : CONST.EDIT }}
+            </button>
+          </div>
 
         </div>
       </div>
@@ -43,7 +51,7 @@
             </div>
           </div>
 
-          <div class="flex-row-item form-control-static">
+          <div class="flex-row-item">
             <dropdown :listName="listName" :ind="index" @move="moveTo">
             </dropdown>
           </div>

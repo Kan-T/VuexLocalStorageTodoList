@@ -1,11 +1,16 @@
 <template>
   <form class="container-fluid ">
-    <nav class="navbar navbar-default-blue fixed-bottom-fluid">
-      <div class="row flex-row" v-show="showDetail">
+    <div class="close" v-show="showDetail" @click="showDetail=false"></div>
+
+    <nav class="navbar-default-blue fixed-bottom-fluid">
+
+      <div v-show="showDetail">
+        <div class="row flex-row">
           <div class="col-xs-11"></div>
-          <div class="btn col-xs-1 flex-row-item" aria-label="Close" @click="showDetail=false">
+          <div class="btn col-xs-1 flex-row-item" @click="showDetail=false">
             <i class="fa fa-close"></i>
           </div>
+        </div>
       </div>
 
       <div class="flex-row">
@@ -77,19 +82,5 @@ export default {
 </script>
 
 <style scoped>
-
-.list-bottom {
-  position: fixed;
-  background: #E5F4FE;
-  bottom: 3px;
-  right: 15px;
-  left: 15px;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding-right: 30px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  z-index: 200;
-}
 
 </style>

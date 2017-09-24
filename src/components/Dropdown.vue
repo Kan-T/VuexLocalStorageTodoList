@@ -47,12 +47,11 @@ export default {
 <style scoped>
 .my-dropdown-menu {
   position: absolute;
-  top: -120%;
+  top: -80%;
   left:auto;
-  right: 80%;
+  right: 10%;
   z-index: 1000;
-  float: left;
-  min-width: 150%;
+  min-width: 100px;
   padding: 0px 0;
   margin: 0px 0 0;
   list-style: none;
@@ -60,7 +59,6 @@ export default {
   text-align: center;
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);

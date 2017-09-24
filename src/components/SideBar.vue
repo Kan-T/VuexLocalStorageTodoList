@@ -22,7 +22,11 @@
       </form>
 
     </nav>
-    <div :class="sideClass2" @click="toggleLeft"><i class="fa fa-chevron-right"></i></div>
+
+    <div :class="sideClass2" @click="toggleLeft">
+      <i class="fa fa-chevron-right"></i>
+    </div>
+
   </div>
 </template>
 
