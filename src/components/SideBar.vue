@@ -88,6 +88,7 @@ export default {
       if(this.addItem!='' & i<0 & j<0){
         this.otherList.push(this.addItem)
         this.otherListLocal.set(this.otherList)
+        this.addItem=''
       }
     }
   }//end methods

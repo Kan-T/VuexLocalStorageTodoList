@@ -31,29 +31,31 @@
       <transition-group type="transition" :name="'flip-list'">
         <div class="row flex-row list-group-item" v-for="(item,index) in items" :key="index">
 
+          <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" :disabled="listName==CONST.DONE" v-show="!editable" @change.stop="setDone(index)">
           <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
-          <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" v-show="!editable" @change.stop="setDone(index)">
 
           <div class="flex-row-item-grow">
             <p class="daily-cut form-control-static">{{item.content}}</p>
           </div>
 
           <div class="flex-row-item">
-            <button class="btn btn-default" v-show="editable"
-                    @click="deleteItem(index)">
-              <i class="fa fa-trash-o"></i>
-            </button>
             <div @click="item.flag=!item.flag" v-show="!editable">
               <span class="fa-stack fa-fw" >
                 <i class="fa fa-circle fa-stack-2x color-gray"></i>
                 <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
               </span>
             </div>
+            <button class="btn btn-default" v-show="editable" @click="deleteItem(index)">
+              <i class="fa fa-trash-o"></i>
+            </button>
           </div>
 
           <div class="flex-row-item">
-            <dropdown :listName="listName" :ind="index" @move="moveTo">
+            <dropdown :listName="listName" :ind="index" @move="moveTo" v-show="!editable">
             </dropdown>
+            <button class="btn btn-default" v-show="editable" @click="top(index)">
+              <i class="fa fa-arrow-up"></i>
+            </button>
           </div>
 
         </div>
@@ -62,7 +64,7 @@
 
     <div class="row"><br><br><br></div>
 
-    <addtodo class="row" @add="add"></addtodo>
+    <addtodo class="row" @add="add" v-show="listName!=CONST.DONE"></addtodo>
 
   </div>
 </template>
@@ -133,7 +135,11 @@ export default {
     },
     deleteItem(index){
       this.items.splice(index, 1)
-      // this.listLocal.set(this.items)
+    },
+    top(index){
+      let itemArr=this.items.splice(index, 1)
+      this.items.unshift(itemArr[0])
+      console.log(this.items)
     },
     clear(){
       let conf = confirm(CONST.EMPTY_CONFIRM)
