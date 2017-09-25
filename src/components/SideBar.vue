@@ -1,11 +1,13 @@
 <template>
-  <div class="cbp-spmenu-push">
-    <nav :class="sideClass1" id="cbp-spmenu-s1" @click="goto">
-      <h3 @click.stop="toggleLeft" ><i class="fa fa-chevron-left"></i> {{CONST.CLOSE_LIST}}</h3>
-<!--       <button class="btn btn-default navbar-btn col-xs-1"
-        @click="editList">
-        {{ this.editable ? CONST.SAVE : CONST.EDIT }}
-      </button> -->
+  <div class="side-container flex-row">
+    <nav class="side-bar flex-col" @click="goto" v-show="showSide">
+      <h3 class="flex-row" >
+        <div class="flex-row-item" @click.stop="toggleLeft">
+          <i class="fa fa-chevron-left"></i>
+          {{CONST.CLOSE_LIST}}
+        </div>
+      </h3>
+
       <template v-for="(element,index) in todoList">
         <a :class="{active: (activeLi==index)}">{{element}}</a>
       </template>
@@ -13,18 +15,17 @@
         <a :class="{active: (activeLi==(index+todoList.length))}">{{element}}</a>
       </template>
 
-      <form class="form-inline cbp-fixed-bottom ">
+      <form class="form-inline fixed-bottom ">
           <input type="text" id="content" required :placeholder="CONST.LIST_TO_ADD"
                 v-model="addItem">
           <button type="submit" class="btn btn-default" @click="add">
             <i class="fa fa-plus"></i>
           </button>
       </form>
-
     </nav>
 
-    <div :class="sideClass2" @click="toggleLeft">
-      <i class="fa fa-chevron-right"></i>
+    <div class="side-bar-switch" @click="toggleLeft">
+      <i class="fa fa-angle-double-right fa-2x"></i>
     </div>
 
   </div>
@@ -64,23 +65,6 @@ export default {
     otherListLocal(){
       return new Local("otherList")
     },
-    sideClass1(){
-      return {
-        "cbp-spmenu": true,
-        "cbp-spmenu-vertical": true,
-        "cbp-spmenu-left": true,
-        "cbp-spmenu-open": this.showSide
-      }
-    },
-    sideClass2(){
-      return {
-        "cbp-spmenu": true,
-        "show-bar": true,
-        "cbp-spmenu-left": true,
-        "cbp-spmenu-open": this.showSide,
-        "center-block":true
-      }
-    }
   },
   methods: {
     goto(e){                     //进入各子列表，用不同的listName名称复用List组件
@@ -92,7 +76,6 @@ export default {
         this.$router.push({ name:'list', query:{'listName':text} })
         this.toggleLeft()
       }
-
     },
 
     toggleLeft(){
@@ -111,4 +94,65 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.flex-col {
+  display: flex;
+  flex-direction:column;
+}
+.flex-col-item {
+  flex-grow: 0;
+  flex-shrink:0;
+}
+.flex-row {
+  display: flex;
+  flex-direction:row;
+}
+
+.side-container{
+  position: fixed;
+  top: 0;
+  height: 100%;
+  z-index: 999;
+}
+.side-bar {
+  background: #65B1DF;
+  width: 240px;
+  height: 100%;
+}
+.side-bar h3 {
+  display: inline-block;
+  color: #FFFFFF;
+  padding: 10px;
+  margin: 0;
+  font-size: 1.3em;
+  font-weight: 500;
+  background: #096296;
+}
+.side-bar a {
+  display: block;
+  color: #FFFFFF;
+  font-size: 1.2em;
+  font-weight: 400;
+  padding: 0.7em;
+  border-bottom: 1px solid #258ecd;
+}
+.side-bar a:hover {
+  background: #258ecd;
+}
+.side-bar a.active {
+  background: #afdefa;
+  color: #000000;
+  border-left: 7px solid #258ecd;
+}
+.side-bar-switch{
+  display: flex;
+  align-items:center;
+  width: 20px;
+  height: 80px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+  z-index: 300;
+  background: #E9F7FF;
+}
+</style>

@@ -6,7 +6,7 @@ import App from './App'
 import './assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import './assets/bootstrap/css/bootstrap.min.css'
 import './assets/bootstrap/css/bootstrap-theme.min.css'
-import './assets/css/side-bar.css'
+import './assets/css/style.css'
 
 // 1. npm install vue-router --save
 // 2. import vue-router

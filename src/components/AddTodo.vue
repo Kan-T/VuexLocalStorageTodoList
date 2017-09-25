@@ -1,8 +1,8 @@
 <template>
-  <form class="container-fluid ">
+  <form class="container-fluid">
     <div class="close" v-show="showDetail" @click="showDetail=false"></div>
 
-    <nav class="navbar-default-blue fixed-bottom-fluid">
+    <nav class="navbar-default-blue fixed-fluid fixed-bottom">
 
       <div v-show="showDetail">
         <div class="row flex-row">
@@ -19,7 +19,7 @@
         </div>
         <div class="flex-row-item" @click="addFlag=!addFlag">
           <span class="fa-stack fa-fw">
-            <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
+            <i class="fa fa-circle fa-stack-2x color-gray"></i>
             <i :class="addFlagClass"></i>
           </span>
         </div>
@@ -54,7 +54,7 @@ export default {
         "fa-flag": true,
         "fa-stack-1x": true,
         "fa-inverse": true,
-        "cbp-red" : this.addFlag
+        "color-red" : this.addFlag
       }
     },
   },

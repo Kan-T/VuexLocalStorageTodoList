@@ -4,8 +4,8 @@
       <div class="container-fluid">
         <div class="row flex-row">
 
-          <div class="col-xs-1 flex-row-item" @click.stop="toggleLeft">
-            <i class="fa fa-bars fa-fw navbar-brand"></i>
+          <div class="col-xs-1 btn flex-row-item" @click.stop="toggleLeft">
+            <i class="fa fa-bars fa-fw navbar-brand text-center"></i>
           </div>
 
           <div class="navbar-brand flex-row-item-grow"><p>{{listName}}</p></div>
@@ -45,7 +45,7 @@
             </button>
             <div @click="item.flag=!item.flag" v-show="!editable">
               <span class="fa-stack fa-fw" >
-                <i class="fa fa-circle fa-stack-2x cbp-icon"></i>
+                <i class="fa fa-circle fa-stack-2x color-gray"></i>
                 <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
               </span>
             </div>
@@ -87,12 +87,14 @@ export default {
     }
   },
   created(){
+    this.editable=false
     this.listName=this.$route.query.listName     //刷新时，可更新
     this.listLocal = new Local(this.listName)
     this.items=this.listLocal.get() || []
   },
   watch: {
     "$route": function(newRoute){                //路由进入时，可更新
+      this.editable=false
       this.listName=newRoute.query.listName
       this.listLocal = new Local(this.listName)
       this.items=this.listLocal.get() || []
@@ -113,7 +115,7 @@ export default {
         "fa-flag": true,
         "fa-stack-1x": true,
         "fa-inverse": true,
-        "cbp-red" : this.addFlag
+        "color-red" : this.addFlag
       }
     },
   },

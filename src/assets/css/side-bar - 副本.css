@@ -131,7 +131,7 @@
   width: 250px;
   height: 100%;
   top: 0;
-  z-index: 999;
+  z-index: 300;
   text-align:right;
   background: #CEEAFB;
 }
@@ -146,16 +146,8 @@
   background: #E5F4FE;
 }
 
-.cbp-icon{
-  color:#9E9E9E;
-}
-
 .cbp-hide{
   display: none;
-}
-
-.cbp-red{
-  color:red;
 }
 
 .cbp-black {
