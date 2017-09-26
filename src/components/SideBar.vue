@@ -1,28 +1,72 @@
 <template>
   <div class="side-container flex-row">
-    <nav class="side-bar flex-col" @click="goto" v-show="showSide">
-      <h3 class="flex-row" >
-        <div class="flex-row-item" @click.stop="toggleLeft">
-          <i class="fa fa-chevron-left"></i>
-          {{CONST.CLOSE_LIST}}
-        </div>
-      </h3>
+    <div class="close" @click.stop="toggleLeft" v-show="showSide"></div>
 
-      <template v-for="(element,index) in todoList">
-        <a :class="{active: (activeLi==index)}">{{element}}</a>
-      </template>
-      <template v-for="(element,index) in otherList">
-        <a :class="{active: (activeLi==(index+todoList.length))}">{{element}}</a>
-      </template>
+    <aside data-v="" v-show="showSide">
+      <div data-v="" class="brand">
+        <div class="flex-row-wide flex-row-space-between" >
+          <div class="flex-row-item btn" @click.stop="toggleLeft">
+            <h4><i class="fa fa-chevron-left fa-fw"></i>{{CONST.CLOSE_LIST}}</h4>
+          </div>
+          <div class="flex-row-item btn btn-default navbar-btn" @click="editList">
+            {{ this.editable ? CONST.COMPLETE : CONST.EDIT }}
+          </div>
+        </div>
+
+        <div class="flex-col-item" style="width: 120px;">
+          <select class="form-control input-sm" v-model="lang">
+            <option disabled value="">{{CONST.CHOOSE}}</option>
+            <option>{{CONST.LANG_CHN}}</option>
+            <option>{{CONST.LANG_EN}}</option>
+          </select>
+        </div>
+      </div>
+
+      <div data-v="" class="nav-container">
+        <div data-v="" class="nav-div">
+          <ul data-v="" role="tablist" class="nav nav-pills nav-stacked">
+
+            <li data-v="" class="no-link" @click="showTodo=!showTodo">
+              <a data-v="">{{CONST.PLAN_LIST}}
+                <i :class="['fa','fa-fw',showTodo?'fa-caret-down':'fa-caret-right']"></i>
+              </a>
+            </li>
+            <template v-for="(element,index) in todoList">
+              <li data-v="" v-show="showTodo">
+                <a data-v="" @click="goto(index)" :class="['sub-list',(activeLi==index) ? 'router-link-active' : '']">
+                {{element}}
+                </a>
+              </li>
+            </template>
+
+            <li data-v="" class="no-link" @click="showOther=!showOther">
+              <a data-v="">{{CONST.OTHER_LIST}}
+                <i :class="['fa','fa-fw',showOther?'fa-caret-down':'fa-caret-right']"></i>
+              </a>
+            </li>
+            <template v-for="(element,index) in otherList">
+              <li data-v="" v-show="showOther">
+                <a data-v="" @click="goto(index+todoList.length)" :class="['sub-list',(activeLi==(index+todoList.length)) ? 'router-link-active' : '']">
+                  {{element}}
+                  <i class="fa fa-close fa-fw pull-right" @click.stop="del(index,element)" v-show="editable"></i>
+                </a>
+              </li>
+            </template>
+
+          </ul>
+        </div>
+      </div>
+      <br>
+      <br>
 
       <form class="form-inline fixed-bottom ">
-          <input type="text" id="content" required :placeholder="CONST.LIST_TO_ADD"
-                v-model="addItem">
-          <button type="submit" class="btn btn-default" @click="add">
-            <i class="fa fa-plus"></i>
-          </button>
+        <input type="text" id="content" required :placeholder="CONST.LIST_TO_ADD"
+              v-model="addItem">
+        <button type="submit" class="btn btn-default" @click="add">
+          <i class="fa fa-plus"></i>
+        </button>
       </form>
-    </nav>
+    </aside>
 
     <div class="side-bar-switch" @click="toggleLeft">
       <i class="fa fa-angle-double-right fa-2x"></i>
@@ -33,6 +77,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import {} from 'uiv'
 import Local from '../Local'
 import * as CONST from '../Const'
 
@@ -46,6 +91,10 @@ export default {
       otherList:[],
       addItem:"",
       addError:"",
+      lang: CONST.LANG_CHN,
+      showTodo:true,
+      showOther:false,
+      editable:false,
     }
   },
   created(){
@@ -65,14 +114,20 @@ export default {
     otherListLocal(){
       return new Local("otherList")
     },
+    liClass(){
+      return {
+        "sub-list":true,
+        "router-link-exact-active": true,
+        "router-link-active": true
+      }
+    },
   },
   methods: {
-    goto(e){                     //进入各子列表，用不同的listName名称复用List组件
-      let text = e.target.text;
+    goto(index){                     //进入各子列表，用不同的listName名称复用List组件
       let list = this.todoList.concat(this.otherList)
-      let i = list.indexOf(text)
-      if(i>=0){
-        this.activeLi = i
+      let text = list[index]
+      if(text){
+        this.activeLi = index
         this.$router.push({ name:'list', query:{'listName':text} })
         this.toggleLeft()
       }
@@ -80,6 +135,7 @@ export default {
 
     toggleLeft(){
       this.$store.commit("toggleSide")
+      this.editable=false
     },
 
     add(){
@@ -90,70 +146,31 @@ export default {
         this.otherListLocal.set(this.otherList)
         this.addItem=''
       }
+    },
+
+    del(index,element){
+      let i = index + this.todoList.length
+      if( i < this.activeLi ){
+        this.activeLi=this.activeLi-1
+      }else if( i == this.activeLi ) {
+        this.activeLi = -1
+        this.$router.push({ path: '/' })
+      }else{
+      }
+
+      let delLocal = new Local(element)
+      delLocal.clear()
+      this.otherList.splice(index, 1)
+      this.otherListLocal.set(this.otherList)
+    },
+
+    editList(){
+      this.editable=!this.editable
     }
-  }//end methods
+  },//end methods
+  components: {  }
 }
 </script>
 
 <style>
-.flex-col {
-  display: flex;
-  flex-direction:column;
-}
-.flex-col-item {
-  flex-grow: 0;
-  flex-shrink:0;
-}
-.flex-row {
-  display: flex;
-  flex-direction:row;
-}
-
-.side-container{
-  position: fixed;
-  top: 0;
-  height: 100%;
-  z-index: 999;
-}
-.side-bar {
-  background: #65B1DF;
-  width: 240px;
-  height: 100%;
-}
-.side-bar h3 {
-  display: inline-block;
-  color: #FFFFFF;
-  padding: 10px;
-  margin: 0;
-  font-size: 1.3em;
-  font-weight: 500;
-  background: #096296;
-}
-.side-bar a {
-  display: block;
-  color: #FFFFFF;
-  font-size: 1.2em;
-  font-weight: 400;
-  padding: 0.7em;
-  border-bottom: 1px solid #258ecd;
-}
-.side-bar a:hover {
-  background: #258ecd;
-}
-.side-bar a.active {
-  background: #afdefa;
-  color: #000000;
-  border-left: 7px solid #258ecd;
-}
-.side-bar-switch{
-  display: flex;
-  align-items:center;
-  width: 20px;
-  height: 80px;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
-  border-right: 1px solid;
-  z-index: 300;
-  background: #E9F7FF;
-}
 </style>

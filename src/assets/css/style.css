@@ -17,21 +17,27 @@
   text-overflow:ellipsis;
   white-space: nowrap;
 }
-.flex-row {
-  display: flex;
-  align-items: center;
+.navbar-default-blue {
+  background: #E9F7FF;
+  border-color: #A2C3D4;
 }
-.flex-row-item {
-  flex-grow: 0;
-  flex-shrink:1;
-  padding-left: 10px;
-  padding-right: 10px;
+.close {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -100;
+  width: 100%;
+  height: 100%;
 }
-.flex-row-item-grow {
-  flex-grow: 1;
-  flex-shrink:1;
-  margin-right: 5px;
+.color-gray{
+  color:#B6B6B6;
 }
+.color-red{
+  color:red;
+}
+
 .fixed-bottom {
   position: fixed;
   bottom: 2px;
@@ -46,23 +52,151 @@
   border: 1px solid transparent;
   z-index: 200;
 }
-.navbar-default-blue {
-  background: #E9F7FF;
-  border-color: #A2C3D4;
+
+.flex-row {
+  display: flex;
+  align-items: center;
 }
-.close {
+.flex-row-wide {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.flex-row-space-between {
+  justify-content:space-between;
+}
+.flex-row-item {
+  flex-grow: 0;
+  flex-shrink:1;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.flex-row-item-grow {
+  flex-grow: 1;
+  flex-shrink:1;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.flex-col {
+  display: flex;
+  flex-direction:column;
+}
+.flex-col-item {
+  flex-grow: 0;
+  flex-shrink:0;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+.side-container{
   position: fixed;
   top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 100;
-  width: 100%;
   height: 100%;
+  color: #000000;
+  z-index: 300;
 }
-.color-gray{
-  color:#B6B6B6;
+.side-bar-switch{
+  display: flex;
+  align-items:center;
+  width: 20px;
+  height: 80px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+  z-index: 300;
+  background: #E9F7FF;
 }
-.color-red{
-  color:red;
+aside[data-v] {
+    width: 240px;
+    height: 100%;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 300;
+    background: #f4f6f7;
+    box-shadow: 3px 0 6px rgba(0, 0, 0, .24)
+}
+
+aside .brand[data-v] {
+    padding-bottom: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: flex-start;
+    -ms-flex-align: flex-start;
+    align-items: flex-start;
+    border-bottom: 1px solid #d5d5d5
+}
+
+aside .brand .logo[data-v] {
+    height: 100px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: block
+}
+
+aside .brand .logo a[data-v] {
+    display: block;
+    width: 100%;
+    height: 100%
+}
+
+aside .brand .logo .vue-logo[data-v] {
+    position: absolute;
+    height: 100px;
+    top: 0;
+    left: 20%
+}
+
+aside .brand .logo .bootstrap-logo[data-v] {
+    position: absolute;
+    height: 60px;
+    top: 20px;
+    left: 50%;
+    opacity: .8
+}
+
+aside .nav-container .nav-div[data-v],
+aside .nav-container[data-v] {
+    position: relative
+}
+
+aside .nav-container .nav li[data-v] {
+    margin: 0
+}
+
+aside .nav-container .nav li a[data-v] {
+    color: #333;
+    transition: all .3s ease-in-out;
+    text-align: left;
+    text-transform: none;
+    padding: 15px;
+    border: 0
+}
+
+aside .nav-container .nav li a.sub-list[data-v] {
+    padding: 10px 15px 10px 30px
+}
+
+aside .nav-container .nav li a.router-link-active[data-v] {
+    background: rgba(207, 216, 220, .24);
+    color: #209e91;
+    box-shadow: inset -6px 0 0 #209e91
+}
+
+aside .nav-container .nav li a[data-v]:hover {
+    background: rgba(207, 216, 220, .24)
+}
+
+aside .nav-container .nav li.no-link a[data-v] {
+    font-weight: 700;
+    cursor: default;
+    background: transparent
 }

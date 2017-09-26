@@ -139,7 +139,6 @@ export default {
     top(index){
       let itemArr=this.items.splice(index, 1)
       this.items.unshift(itemArr[0])
-      console.log(this.items)
     },
     clear(){
       let conf = confirm(CONST.EMPTY_CONFIRM)
@@ -166,7 +165,6 @@ export default {
       this.$store.commit("toggleSide")
     },
     moveTo(ind,targetList){
-      // console.log(ind + targetList)
       let targetLocal = new Local(targetList)
       let itemTemp
 
