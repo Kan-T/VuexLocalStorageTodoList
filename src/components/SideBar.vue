@@ -8,7 +8,7 @@
           <div class="flex-row-item btn" @click.stop="toggleLeft">
             <h4><i class="fa fa-chevron-left fa-fw"></i>{{CONST.CLOSE_LIST}}</h4>
           </div>
-          <div class="flex-row-item btn btn-default navbar-btn" @click="editList">
+          <div class="flex-row-item btn btn-default navbar-btn" @click.stop="editList">
             {{ this.editable ? CONST.COMPLETE : CONST.EDIT }}
           </div>
         </div>
@@ -26,27 +26,27 @@
         <div data-v="" class="nav-div">
           <ul data-v="" role="tablist" class="nav nav-pills nav-stacked">
 
-            <li data-v="" class="no-link" @click="showTodo=!showTodo">
+            <li data-v="" class="no-link" @click.stop="showTodo=!showTodo">
               <a data-v="">{{CONST.PLAN_LIST}}
                 <i :class="['fa','fa-fw',showTodo?'fa-caret-down':'fa-caret-right']"></i>
               </a>
             </li>
             <template v-for="(element,index) in todoList">
               <li data-v="" v-show="showTodo">
-                <a data-v="" @click="goto(index)" :class="['sub-list',(activeLi==index) ? 'router-link-active' : '']">
+                <a data-v="" @click.stop="goto(index)" :class="['sub-list',(activeLi==index) ? 'router-link-active' : '']">
                 {{element}}
                 </a>
               </li>
             </template>
 
-            <li data-v="" class="no-link" @click="showOther=!showOther">
+            <li data-v="" class="no-link" @click.stop="showOther=!showOther">
               <a data-v="">{{CONST.OTHER_LIST}}
                 <i :class="['fa','fa-fw',showOther?'fa-caret-down':'fa-caret-right']"></i>
               </a>
             </li>
             <template v-for="(element,index) in otherList">
               <li data-v="" v-show="showOther">
-                <a data-v="" @click="goto(index+todoList.length)" :class="['sub-list',(activeLi==(index+todoList.length)) ? 'router-link-active' : '']">
+                <a data-v="" @click.stop="goto(index+todoList.length)" :class="['sub-list',(activeLi==(index+todoList.length)) ? 'router-link-active' : '']">
                   {{element}}
                   <i class="fa fa-close fa-fw pull-right" @click.stop="del(index,element)" v-show="editable"></i>
                 </a>
@@ -62,13 +62,13 @@
       <form class="form-inline fixed-bottom ">
         <input type="text" id="content" required :placeholder="CONST.LIST_TO_ADD"
               v-model="addItem">
-        <button type="submit" class="btn btn-default" @click="add">
+        <button type="submit" class="btn btn-default" @click.stop="add">
           <i class="fa fa-plus"></i>
         </button>
       </form>
     </aside>
 
-    <div class="side-bar-switch" @click="toggleLeft">
+    <div class="side-bar-switch" @click.stop="toggleLeft">
       <i class="fa fa-angle-double-right fa-2x"></i>
     </div>
 
@@ -77,7 +77,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import {} from 'uiv'
 import Local from '../Local'
 import * as CONST from '../Const'
 
@@ -93,7 +92,7 @@ export default {
       addError:"",
       lang: CONST.LANG_CHN,
       showTodo:true,
-      showOther:false,
+      showOther:true,
       editable:false,
     }
   },

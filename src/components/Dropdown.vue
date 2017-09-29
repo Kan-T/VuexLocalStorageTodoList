@@ -1,12 +1,22 @@
 <template>
   <div>
-    <button class="btn btn-default" @click="show=!show">
-      <i class="fa fa-copy fa-fw "></i>
+    <button class="btn btn-default" @click.stop="show=!show">
+      <i class="fa fa-cog fa-fw"></i>
     </button>
     <div v-if="show">
-      <div class="close" @click="show=false"></div>
+      <div class="close" @click.stop="show=false"></div>
       <ul class="my-dropdown-menu">
-        <li v-for="(item,i) in list" :key="i" @click="emit(i)">
+
+        <li class="big btn"  @click.stop="edit">
+          <span>{{CONST.EDIT}}</span> <i class="fa fa-fw fa-edit"></i>
+        </li>
+
+        <li class="title">
+          {{ (listName==CONST.CUSTOM)?CONST.COPY_TO:CONST.MOVE_TO }}
+          <i class="fa fa-fw fa-caret-down"></i>
+        </li>
+
+        <li v-for="(item,i) in list" :key="i" @click.stop="emit(i)">
           {{item}}
         </li>
       </ul>
@@ -21,6 +31,7 @@ export default {
   name: 'Dropdown',
   data () {
     return {
+      CONST:CONST,
       list:[CONST.TODAY, CONST.TOMORROW, CONST.WEEK, CONST.FUTURE],
       show:false,
       activeLi:-1,
@@ -28,6 +39,9 @@ export default {
   },
   props:["listName","ind"],
   computed:{
+    custom(){
+      return CONST.CUSTOM
+    }
   },
   methods: {
     emit(i){
@@ -37,6 +51,10 @@ export default {
         this.$emit("move", this.ind, targetList)
         this.show=false
       }
+    },
+    edit(){
+      this.$store.commit('openPop')
+      this.show=false
     }
   },
   components:{ }
@@ -47,16 +65,16 @@ export default {
 <style scoped>
 .my-dropdown-menu {
   position: absolute;
-  top: -80%;
+  top: -150%;
   left:auto;
-  right: 10%;
+  right: 60px;
   z-index: 1000;
   min-width: 100px;
   padding: 0px 0;
   margin: 0px 0 0;
   list-style: none;
-  font-size: 14px;
-  text-align: center;
+  font-size: 13px;
+  text-align: left;
   background-color: #ffffff;
   border: 1px solid #cccccc;
   border-radius: 4px;
@@ -66,8 +84,25 @@ export default {
           background-clip: padding-box;
 }
 .my-dropdown-menu>li {
+  padding-left: 25px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+.my-dropdown-menu>li.title {
+  padding-left: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.my-dropdown-menu>li.big {
   border-bottom: 1px solid #cccccc;
-  padding: 7px 0;
+  padding-left: 25px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  width: 100%;
+  font-size: 14px;
+  background: #f4f6f7;
+  font-weight: 600;
 }
 .close {
     opacity: 0;

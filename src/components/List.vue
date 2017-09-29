@@ -39,7 +39,7 @@
           </div>
 
           <div class="flex-row-item">
-            <div @click="item.flag=!item.flag" v-show="!editable">
+            <div @click="changeFlag(index)" v-show="!editable">
               <span class="fa-stack fa-fw" >
                 <i class="fa fa-circle fa-stack-2x color-gray"></i>
                 <i class="fa fa-flag fa-stack-1x fa-inverse" :style="{color: (item.flag?'red':'')}"></i>
@@ -85,7 +85,7 @@ export default {
       items:[],
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
-      doneLocal: (new Local(CONST.DONE)),     //必须与SideBar.vue中的todoList里的最后一项“已完成”相同
+      doneLocal: (new Local(CONST.DONE)),
     }
   },
   created(){
@@ -95,7 +95,7 @@ export default {
     this.items=this.listLocal.get() || []
   },
   watch: {
-    "$route": function(newRoute){                //路由进入时，可更新
+    $route: function(newRoute){                //路由进入时，可更新
       this.editable=false
       this.listName=newRoute.query.listName
       this.listLocal = new Local(this.listName)
@@ -132,6 +132,10 @@ export default {
     onMove ({relatedContext, draggedContext}) {
       const relatedElement = relatedContext.element;
       return relatedElement
+    },
+    changeFlag(index){
+      this.items[index].flag=!this.items[index].flag
+      this.listLocal.set(this.items)
     },
     deleteItem(index){
       this.items.splice(index, 1)

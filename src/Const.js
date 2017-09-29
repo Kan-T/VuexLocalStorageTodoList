@@ -17,6 +17,7 @@ export const EMPTY      = '清空'
 export const SAVE       = '保存'
 export const EDIT       = '编辑'
 export const COMPLETE   = '完成'
+export const CANCEL     = '取消'
 export const COPY_TO    = '复制到'
 export const MOVE_TO    = '移动到'
 

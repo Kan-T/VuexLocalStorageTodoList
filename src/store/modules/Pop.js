@@ -1,5 +1,5 @@
 const state = {
-  showSide:false,
+  showPop:false,
 }
 
 // getters
@@ -12,11 +12,11 @@ const actions = {
 
 // mutations
 const mutations = {
-  toggleSide(){
-    state.showSide = !state.showSide
+  setPop(state,val){
+    state.showPop = val
   },
-  closeSide(){
-    state.showSide = false
+  openPop(state){
+    state.showPop = true
   }
 }
 
