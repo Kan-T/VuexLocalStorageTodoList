@@ -59,7 +59,7 @@
       <br>
       <br>
 
-      <form class="form-inline fixed-bottom ">
+      <form class="form-inline fixed-bottom">
         <input type="text" id="content" required :placeholder="CONST.LIST_TO_ADD"
               v-model="addItem">
         <button type="submit" class="btn btn-default" @click.stop="add">

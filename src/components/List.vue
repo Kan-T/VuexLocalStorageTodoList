@@ -51,7 +51,7 @@
           </div>
 
           <div class="flex-row-item">
-            <dropdown :listName="listName" :ind="index" v-show="!editable" @move="moveTo" @edit="editItem">
+            <dropdown :listName="listName" :ind="index" v-show="!editable" @move="moveTo" @edit="openEdit(item,index)">
             </dropdown>
             <button class="btn btn-default" v-show="editable" @click="top(index)">
               <i class="fa fa-arrow-up"></i>
@@ -64,6 +64,12 @@
 
     <div class="row"><br><br><br></div>
 
+    <div v-if="openEditFlag">
+      <div class="close" @click.stop="openEditFlag=false"></div>
+      <edittodo class="" :loadItem="loadItem" @save="saveItem">
+      </edittodo>
+    </div>
+
     <addtodo class="row" @add="add" v-show="listName!=CONST.DONE"></addtodo>
 
   </div>
@@ -74,22 +80,28 @@ import draggable from 'vuedraggable'
 import Local from '../Local'
 import dropdown from './Dropdown'
 import addtodo from './AddTodo'
+import edittodo from './EditTodo'
 import * as CONST from '../Const'
 
 export default {
   name: 'List',
+  components:{ draggable, dropdown, addtodo, edittodo},
   data () {
     return {
       CONST:CONST,
       editable: false,
+      openEditFlag:false,
       items:[],
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
       doneLocal: (new Local(CONST.DONE)),
+      loadItem:{},                                //for editTodo
+      loadInd:-1
     }
   },
   created(){
     this.editable=false
+    this.openEditFlag=false
     this.listName=this.$route.query.listName     //刷新时，可更新
     this.listLocal = new Local(this.listName)
     this.items=this.listLocal.get() || []
@@ -97,6 +109,7 @@ export default {
   watch: {
     $route: function(newRoute){                //路由进入时，可更新
       this.editable=false
+      this.openEditFlag=false
       this.listName=newRoute.query.listName
       this.listLocal = new Local(this.listName)
       this.items=this.listLocal.get() || []
@@ -140,10 +153,6 @@ export default {
     deleteItem(index){
       this.items.splice(index, 1)
     },
-    editItem(index){
-      console.log(index)
-
-    },
     top(index){
       let itemArr=this.items.splice(index, 1)
       this.items.unshift(itemArr[0])
@@ -161,6 +170,19 @@ export default {
 
       this.addContent=''
       this.addFlag=false
+    },
+    openEdit(item,index){
+      this.loadInd = index
+      this.loadItem = item
+      this.openEditFlag = true
+    },
+    saveItem(item){
+      this.items[this.loadInd]=item
+      this.listLocal.set(this.items)
+
+      this.openEditFlag = false
+      this.loadInd=-1
+      this.loadItem={}
     },
     setDone(index){
       setTimeout(()=>{
@@ -186,7 +208,6 @@ export default {
       targetLocal.addList(itemTemp)
     }
   },
-  components:{ draggable, dropdown, addtodo}
 }
 </script>
 
