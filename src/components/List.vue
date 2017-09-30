@@ -51,7 +51,7 @@
           </div>
 
           <div class="flex-row-item">
-            <dropdown :listName="listName" :ind="index" @move="moveTo" v-show="!editable">
+            <dropdown :listName="listName" :ind="index" v-show="!editable" @move="moveTo" @edit="editItem">
             </dropdown>
             <button class="btn btn-default" v-show="editable" @click="top(index)">
               <i class="fa fa-arrow-up"></i>
@@ -139,6 +139,10 @@ export default {
     },
     deleteItem(index){
       this.items.splice(index, 1)
+    },
+    editItem(index){
+      console.log(index)
+
     },
     top(index){
       let itemArr=this.items.splice(index, 1)

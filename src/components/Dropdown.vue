@@ -16,7 +16,7 @@
           <i class="fa fa-fw fa-caret-down"></i>
         </li>
 
-        <li v-for="(item,i) in list" :key="i" @click.stop="emit(i)">
+        <li v-for="(item,i) in list" :key="i" @click.stop="move(i)">
           {{item}}
         </li>
       </ul>
@@ -44,7 +44,7 @@ export default {
     }
   },
   methods: {
-    emit(i){
+    move(i){
       let targetList = this.list[i]
 
       if(targetList!==this.listName){
@@ -53,11 +53,11 @@ export default {
       }
     },
     edit(){
-      this.$store.commit('openPop')
+      this.$emit("edit", this.ind)
       this.show=false
     }
   },
-  components:{ }
+  components:{  }
 }
 </script>
 

@@ -1,6 +1,7 @@
 <template>
   <modal v-model="open" size="lg" :header="false" :backdrop="false">
 
+    <input type="text">
     <p>xxx</p>
 
     <div slot="footer">
@@ -35,7 +36,6 @@ export default {
   },
   methods: {
     save(){
-
       this.open=false
     }
   },

@@ -15,9 +15,6 @@ const mutations = {
   setPop(state,val){
     state.showPop = val
   },
-  openPop(state){
-    state.showPop = true
-  }
 }
 
 export default {
