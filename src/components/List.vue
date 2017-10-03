@@ -5,14 +5,20 @@
         <div class="row flex-row">
 
           <div class="col-xs-1 btn flex-row-item" @click.stop="toggleLeft">
-            <i class="fa fa-bars fa-fw navbar-brand text-center"></i>
+            <i class="fa fa-bars fa-fw navbar-brand pull-left"></i>
           </div>
 
           <div class="navbar-brand flex-row-item-grow"><p>{{listName}}</p></div>
 
-          <div class="flex-row-item">
-            <button class="btn btn-default navbar-btn"
+<!--           <div class="flex-row-item">
+            <button class="btn btn-warning navbar-btn"
               @click="clear">{{CONST.EMPTY}}<i class="fa fa-trash-o"></i>
+            </button>
+          </div> -->
+
+          <div class="flex-row-item">
+            <button class="btn btn-default navbar-btn" @click="toggleTip">
+              {{enableTip?CONST.TURN_OFF:CONST.TURN_ON}}{{CONST.TIP}}
             </button>
           </div>
 
@@ -31,12 +37,12 @@
       <transition-group type="transition" :name="'flip-list'">
         <div class="row flex-row list-group-item" v-for="(item,index) in items" :key="index">
 
-          <input type="checkbox" class="col-xs-1 input-sm" v-model="item.done" :disabled="listName==CONST.DONE" v-show="!editable" @change.stop="setDone(index)">
-          <i class="col-xs-1 fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
+          <input type="checkbox" class="list-box input-sm" v-model="item.done" :disabled="listName==CONST.DONE" v-show="!editable" @change.stop="setDone(index)">
+          <i class="list-box fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
 
-          <div class="flex-row-item-grow">
-            <p class="daily-cut form-control-static">{{item.content}}</p>
-          </div>
+          <tooltip class="flex-row-item-grow daily-cut" trigger="outside-click" :text="item.content" :auto-placement="true" :enable="enableTip">
+            <p class="daily-cut form-control-static tip-flag">{{item.content}}</p>
+          </tooltip>
 
           <div class="flex-row-item">
             <div @click="changeFlag(index)" v-show="!editable">
@@ -64,38 +70,36 @@
 
     <div class="row"><br><br><br></div>
 
-    <div v-if="openEditFlag">
-      <div class="close" @click.stop="openEditFlag=false"></div>
-      <edittodo class="" :loadItem="loadItem" @save="saveItem">
-      </edittodo>
-    </div>
-
     <addtodo class="row" @add="add" v-show="listName!=CONST.DONE"></addtodo>
+
+    <pop :loadItem="loadItem" @save="saveItem"></pop>
 
   </div>
 </template>
 
 <script>
 import draggable from 'vuedraggable'
+import {Tooltip as tooltip} from 'uiv'
 import Local from '../Local'
 import dropdown from './Dropdown'
 import addtodo from './AddTodo'
-import edittodo from './EditTodo'
+import Pop from './Pop'
 import * as CONST from '../Const'
 
 export default {
   name: 'List',
-  components:{ draggable, dropdown, addtodo, edittodo},
+  components:{ draggable, tooltip, dropdown, addtodo, Pop},
   data () {
     return {
       CONST:CONST,
       editable: false,
-      openEditFlag:false,
+      openEditFlag: false,
+      enableTip: true,
       items:[],
       listName: this.$route.query.listName,
       listLocal: (new Local(this.listName)),
       doneLocal: (new Local(CONST.DONE)),
-      loadItem:{},                                //for editTodo
+      loadItem:{},                                //for Pop editting
       loadInd:-1
     }
   },
@@ -105,6 +109,15 @@ export default {
     this.listName=this.$route.query.listName     //刷新时，可更新
     this.listLocal = new Local(this.listName)
     this.items=this.listLocal.get() || []
+
+    let enabled = new Local("enableTip").get()      //Set this.enableTip
+    if(enabled){
+      this.enableTip = (enabled=="true")? true : false
+    }else{
+      new Local("enableTip").set("true")
+      this.enableTip=true
+    }
+
   },
   watch: {
     $route: function(newRoute){                //路由进入时，可更新
@@ -175,6 +188,7 @@ export default {
       this.loadInd = index
       this.loadItem = item
       this.openEditFlag = true
+      this.$store.commit('setPop',true)
     },
     saveItem(item){
       this.items[this.loadInd]=item
@@ -206,7 +220,15 @@ export default {
       }
 
       targetLocal.addList(itemTemp)
-    }
+    },
+    toggleTip(){
+      this.enableTip = !this.enableTip
+      if(this.enableTip){
+        new Local("enableTip").set("true")
+      }else{
+        new Local("enableTip").set("false")
+      }
+    },
   },
 }
 </script>

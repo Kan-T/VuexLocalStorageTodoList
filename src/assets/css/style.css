@@ -17,6 +17,12 @@
   text-overflow:ellipsis;
   white-space: nowrap;
 }
+.list-box {
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  min-width: 30px;
+}
 .navbar-default-blue {
   background: #EDF3F6;
   border-color: #A2C3D4;

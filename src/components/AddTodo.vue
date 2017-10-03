@@ -15,7 +15,7 @@
 
       <div class="flex-row">
         <div class="flex-row-item-grow">
-          <input type="text" class="form-control" :placeholder="CONST.CONTENT_TO_ADD" style="width:100%;" v-model="addContent" @click="show">
+          <input type="textarea" class="form-control" :placeholder="CONST.CONTENT_TO_ADD" v-model="addContent" @click="show">
         </div>
         <div class="flex-row-item" @click="addFlag=!addFlag">
           <span class="fa-stack fa-fw">

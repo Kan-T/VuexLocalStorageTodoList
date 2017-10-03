@@ -2,13 +2,11 @@
   <div id="app">
     <side-bar></side-bar>
     <router-view></router-view>
-    <pop></pop>
   </div>
 </template>
 
 <script>
 import SideBar from './components/SideBar'
-import Pop from './components/Pop'
 
 export default {
   name: 'app',
@@ -16,9 +14,10 @@ export default {
     return{
     }
   },
+  props:["loadItem"],
   methods: {
   },
-  components:{ SideBar, Pop }
+  components:{ SideBar }
 }
 
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="side-container flex-row">
-    <div class="close" @click.stop="toggleLeft" v-show="showSide"></div>
+    <!-- <div class="close" @click.stop="toggleLeft" v-show="showSide"></div> -->
 
     <aside data-v="" v-show="showSide">
       <div data-v="" class="brand">
