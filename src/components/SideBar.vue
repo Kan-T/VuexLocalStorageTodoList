@@ -40,7 +40,7 @@
             </template>
 
             <li data-v="" class="no-link" @click.stop="showOther=!showOther">
-              <a data-v="">{{CONST.OTHER_LIST}}
+              <a data-v="">{{CONST.DEFINED_LIST}}
                 <i :class="['fa','fa-fw',showOther?'fa-caret-down':'fa-caret-right']"></i>
               </a>
             </li>

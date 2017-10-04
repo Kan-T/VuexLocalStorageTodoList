@@ -37,7 +37,7 @@
       <transition-group type="transition" :name="'flip-list'">
         <div class="row flex-row list-group-item" v-for="(item,index) in items" :key="index">
 
-          <input type="checkbox" class="list-box input-sm" v-model="item.done" :disabled="listName==CONST.DONE" v-show="!editable" @change.stop="setDone(index)">
+          <input type="checkbox" class="list-box input-sm" v-model="item.done" v-show="!editable" :disabled="(listName==CONST.DONE)||(item.done)" @change.stop="setDone(index)">
           <i class="list-box fa fa-arrows fa-fw form-control-static" v-show="editable"></i>
 
           <tooltip class="flex-row-item-grow daily-cut" trigger="outside-click" :text="item.content" :auto-placement="true" :enable="enableTip">
@@ -56,7 +56,7 @@
             </button>
           </div>
 
-          <div class="flex-row-item">
+          <div class="flex-row-item" v-show="listName!==CONST.DONE">
             <dropdown :listName="listName" :ind="index" v-show="!editable" @move="moveTo" @edit="openEdit(item,index)">
             </dropdown>
             <button class="btn btn-default" v-show="editable" @click="top(index)">
@@ -101,31 +101,6 @@ export default {
       doneLocal: (new Local(CONST.DONE)),
       loadItem:{},                                //for Pop editting
       loadInd:-1
-    }
-  },
-  created(){
-    this.editable=false
-    this.openEditFlag=false
-    this.listName=this.$route.query.listName     //刷新时，可更新
-    this.listLocal = new Local(this.listName)
-    this.items=this.listLocal.get() || []
-
-    let enabled = new Local("enableTip").get()      //Set this.enableTip
-    if(enabled){
-      this.enableTip = (enabled=="true")? true : false
-    }else{
-      new Local("enableTip").set("true")
-      this.enableTip=true
-    }
-
-  },
-  watch: {
-    $route: function(newRoute){                //路由进入时，可更新
-      this.editable=false
-      this.openEditFlag=false
-      this.listName=newRoute.query.listName
-      this.listLocal = new Local(this.listName)
-      this.items=this.listLocal.get() || []
     }
   },
   computed:{
@@ -200,9 +175,12 @@ export default {
     },
     setDone(index){
       setTimeout(()=>{
-        this.doneLocal.addList(this.items[index])
-        this.deleteItem(index)
-        this.listLocal.set(this.items)
+        if(this.items[index].done){
+          this.items[index].doneDate = new Date()
+          this.doneLocal.addList(this.items[index])
+          this.deleteItem(index)
+          this.listLocal.set(this.items)
+        }
       }, 500)
     },
     toggleLeft(){
@@ -229,13 +207,55 @@ export default {
         new Local("enableTip").set("false")
       }
     },
+  },    //End of methods
+  created(){
+    this.editable=false                             //刷新时，可更新
+    this.openEditFlag=false
+    this.listName=this.$route.query.listName
+    this.listLocal = new Local(this.listName)
+    this.items=this.listLocal.get() || []
+
+    let enabled = new Local("enableTip").get()      //Set this.enableTip
+    if(enabled){
+      this.enableTip = (enabled=="true")? true : false
+    }else{
+      new Local("enableTip").set("true")
+      this.enableTip=true
+    }
+
+    let doneLocal = new Local(CONST.DONE)           //Delete old Done items
+    let today = new Date().toISOString().substring(0, 10)
+    let lastDate = localStorage.getItem("last_clean_date") || today
+    let keepDays = parseInt( localStorage.getItem("done_keey_days") ) || 10
+
+    let doneItems = doneLocal.get()
+    let lastCleanDate = lastDate.substring(0, 10)
+
+    if( doneItems && doneItems.length>0 && today<lastCleanDate ){
+        let delDate=new Date()
+        delDate.setDate( delDate.getDate()-keepDays )
+
+        let items = doneItems.filter( item => item.doneDate<delDate )
+        doneLocal.set(items)
+    }
+    localStorage.setItem("last_clean_date",JSON.stringify(new Date))
+
+  },
+  watch: {
+    $route: function(newRoute){                   //路由进入时，可更新
+      this.editable=false
+      this.openEditFlag=false
+      this.listName=newRoute.query.listName
+      this.listLocal = new Local(this.listName)
+      this.items=this.listLocal.get() || []
+    }
   },
 }
 </script>
 
 <style scoped>
 .flip-list-move {
-  transition: transform 0.2s;
+  transition: transform 0.3s;
 }
 
 .ghost {

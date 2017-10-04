@@ -24,7 +24,7 @@
   min-width: 30px;
 }
 .navbar-default-blue {
-  background: #EDF3F6;
+  background: #f4f6f7;
   border-color: #A2C3D4;
 }
 .full-size {
@@ -114,7 +114,7 @@
 .side-bar-switch{
   display: flex;
   align-items:center;
-  width: 20px;
+  width: 23px;
   height: 80px;
   border-top: 1px solid;
   border-bottom: 1px solid;
