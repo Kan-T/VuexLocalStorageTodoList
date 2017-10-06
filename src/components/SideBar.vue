@@ -76,7 +76,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import Local from '../Local'
 import * as CONST from '../Const'
 

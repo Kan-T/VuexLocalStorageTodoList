@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import List from './modules/List'
 import SideBar from './modules/SideBar'
 import Pop from './modules/Pop'
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    List: List,
     SideBar: SideBar,
     Pop: Pop
   }
